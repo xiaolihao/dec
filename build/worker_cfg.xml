@@ -1,0 +1,8 @@
+<DecWorkerCfg>
+	<TaskRootDir>./w_task</TaskRootDir>
+	<ExecRootDir>./w_exe</ExecRootDir>
+	<ServerPort>9000</ServerPort>
+	<ServerIP>127.0.0.1</ServerIP>
+	<AppName>app1</AppName>
+	<HeartbeatInternal>10</HeartbeatInternal>
+</DecWorkerCfg>

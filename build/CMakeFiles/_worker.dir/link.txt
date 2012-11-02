@@ -1,0 +1,1 @@
+/usr/bin/gcc   -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/_worker.dir/src/_worker.c.o  -o _worker  -L/usr/local/lib -L/opt/local/lib libdec.a -levent -lglib-2.0.0 

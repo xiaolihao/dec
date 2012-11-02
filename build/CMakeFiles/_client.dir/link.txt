@@ -1,0 +1,1 @@
+/usr/bin/gcc   -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/_client.dir/src/_client.c.o  -o _client  -L/usr/local/lib -L/opt/local/lib 

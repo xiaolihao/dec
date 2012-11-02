@@ -1,0 +1,2 @@
+/usr/bin/ar cr libdec.a  CMakeFiles/dec.dir/src/g_dec_serv.c.o CMakeFiles/dec.dir/src/g_dec_util.c.o CMakeFiles/dec.dir/src/g_dec_worker.c.o
+/usr/bin/ranlib libdec.a
