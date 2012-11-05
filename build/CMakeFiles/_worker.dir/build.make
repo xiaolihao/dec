@@ -38,10 +38,10 @@ EQUALS = =
 CMAKE_EDIT_COMMAND = /opt/local/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/tll007/dev/elab/dec
+CMAKE_SOURCE_DIR = /Users/tll007/dev/dec
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/tll007/dev/elab/dec/build
+CMAKE_BINARY_DIR = /Users/tll007/dev/dec/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/_worker.dir/depend.make
@@ -54,17 +54,17 @@ include CMakeFiles/_worker.dir/flags.make
 
 CMakeFiles/_worker.dir/src/_worker.c.o: CMakeFiles/_worker.dir/flags.make
 CMakeFiles/_worker.dir/src/_worker.c.o: ../src/_worker.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/elab/dec/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/dec/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/_worker.dir/src/_worker.c.o"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/_worker.dir/src/_worker.c.o   -c /Users/tll007/dev/elab/dec/src/_worker.c
+	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/_worker.dir/src/_worker.c.o   -c /Users/tll007/dev/dec/src/_worker.c
 
 CMakeFiles/_worker.dir/src/_worker.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/_worker.dir/src/_worker.c.i"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -E /Users/tll007/dev/elab/dec/src/_worker.c > CMakeFiles/_worker.dir/src/_worker.c.i
+	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -E /Users/tll007/dev/dec/src/_worker.c > CMakeFiles/_worker.dir/src/_worker.c.i
 
 CMakeFiles/_worker.dir/src/_worker.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/_worker.dir/src/_worker.c.s"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -S /Users/tll007/dev/elab/dec/src/_worker.c -o CMakeFiles/_worker.dir/src/_worker.c.s
+	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -S /Users/tll007/dev/dec/src/_worker.c -o CMakeFiles/_worker.dir/src/_worker.c.s
 
 CMakeFiles/_worker.dir/src/_worker.c.o.requires:
 .PHONY : CMakeFiles/_worker.dir/src/_worker.c.o.requires
@@ -101,6 +101,6 @@ CMakeFiles/_worker.dir/clean:
 .PHONY : CMakeFiles/_worker.dir/clean
 
 CMakeFiles/_worker.dir/depend:
-	cd /Users/tll007/dev/elab/dec/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/tll007/dev/elab/dec /Users/tll007/dev/elab/dec /Users/tll007/dev/elab/dec/build /Users/tll007/dev/elab/dec/build /Users/tll007/dev/elab/dec/build/CMakeFiles/_worker.dir/DependInfo.cmake --color=$(COLOR)
+	cd /Users/tll007/dev/dec/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/tll007/dev/dec /Users/tll007/dev/dec /Users/tll007/dev/dec/build /Users/tll007/dev/dec/build /Users/tll007/dev/dec/build/CMakeFiles/_worker.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/_worker.dir/depend
 

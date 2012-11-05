@@ -3,12 +3,12 @@
 
 
 
-DEC_SERVER_CONNECTION dec_server_connection_init(struct bufferevent *bev,
+DEC_WORKER_CONNECTION dec_server_connection_init(struct bufferevent *bev,
 						 int32_t fd,
 						 DEC_SERVER server){
-  DEC_SERVER_CONNECTION conn=NULL;
+  DEC_WORKER_CONNECTION conn=NULL;
 
-  conn=(DEC_SERVER_CONNECTION)malloc(sizeof(struct _dec_server_connection));
+  conn=(DEC_WORKER_CONNECTION)malloc(sizeof(struct _dec_worker_connection));
   if (!conn)
     return NULL;
 
@@ -26,7 +26,7 @@ DEC_SERVER_CONNECTION dec_server_connection_init(struct bufferevent *bev,
   return conn;
 }
 
-void dec_server_connection_free(DEC_SERVER_CONNECTION conn){
+void dec_server_connection_free(DEC_WORKER_CONNECTION conn){
 
   bufferevent_disable(conn->bev, EV_READ|EV_WRITE);
   bufferevent_free(conn->bev);
@@ -36,7 +36,7 @@ void dec_server_connection_free(DEC_SERVER_CONNECTION conn){
 
 void dec_server_worker_add_by_fd(DEC_SERVER server,
 				 int32_t fd,
-				 DEC_SERVER_CONNECTION conn){
+				 DEC_WORKER_CONNECTION conn){
  
   /* MUST use dynamic memory */
   int32_t *key=NULL;
@@ -54,14 +54,14 @@ void dec_server_int_key_destroy(gpointer key){
 }
 
 void dec_server_fd2worker_value_destroy(gpointer value){
-  dec_server_connection_free((DEC_SERVER_CONNECTION)value);
+  dec_server_connection_free((DEC_WORKER_CONNECTION)value);
 }
 
 gboolean _dec_server_state_check(gpointer key,
 		  gpointer value,
 		  gpointer p){
   
-   DEC_SERVER_CONNECTION conn=(DEC_SERVER_CONNECTION)value;
+   DEC_WORKER_CONNECTION conn=(DEC_WORKER_CONNECTION)value;
    
    /* if timeout, delete the connection */
    if(time(0)-conn->heartbeat >= conn->server->connection_max_timeout)
@@ -84,7 +84,7 @@ static void dec_server_state_check_cb(evutil_socket_t fd,
   evtimer_add(server->st_ev, &server->st_tv);
 }
 
-static void dec_server_send_task(DEC_SERVER_CONNECTION conn){
+static void dec_server_send_task(DEC_WORKER_CONNECTION conn){
 
   char task_path[1024]={0}, task_file[1024]={0};
   char *file_name=NULL;
@@ -130,13 +130,13 @@ static void dec_server_task_check_cb(evutil_socket_t fd,
 			   void *p){
 
   DEC_SERVER server=(DEC_SERVER)p;
-  DEC_SERVER_CONNECTION conn=NULL;
+  DEC_WORKER_CONNECTION conn=NULL;
 
 
   int pid=-1;
   while((pid=waitpid(-1, NULL, 0)) > 0){
 
-    conn=(DEC_SERVER_CONNECTION)g_hash_table_lookup(server->pid2worker, &pid);
+    conn=(DEC_WORKER_CONNECTION)g_hash_table_lookup(server->pid2worker, &pid);
     if(!conn)
       break;
 
@@ -226,20 +226,39 @@ int dec_server_net_message_process(DEC_SERVER server,
 				    int32_t type,
 				    void *data,
 				    int32_t size){
-  DEC_SERVER_CONNECTION conn=NULL;
+  DEC_WORKER_CONNECTION conn=NULL;
   int32_t fd=-1;
   char *buf=NULL;
   char task_path[1024]={0}, exe_path[1024]={0}, task_file[1024]={0};
   pid_t pid=-1;
   int32_t *pid_key=NULL;
- 
+  char name[1024]={0};
+
   fd = bufferevent_getfd(bev);
 
   switch(type){
 
+    /* worker register */
   case COM_W_REGISTER:
     if(size == 0 || data == NULL)
       return G_OK;
+
+    /* check exe existence */
+    strncpy(name, (char*)data, size);
+    name[size]='\0';
+    sprintf(exe_path, "%s/%s_create", server->exe_root_dir->str, name);
+
+    if(util_file_existence(exe_path) != G_OK){
+      
+      /* no exe file on server */
+      util_message_packet_create((char**)&buf, (int32_t)COM_S_ERROR, (char*)COM_S_ERROR_MSG_NO_EXE, (int32_t)strlen(COM_S_ERROR_MSG_NO_EXE));
+      bufferevent_write(bev, buf, COM_HEADER_SIZE+strlen(COM_S_ERROR_MSG_NO_EXE));
+      free(buf);
+
+      printf("----COM_W_REGISTRE---\napp_name:%s_create\t\t[ERROR]\n\n", name);
+      break;
+    }
+    
     /* create a new connection and add to worker table */
     conn=dec_server_connection_init(bev, fd, server);
     assert(conn);
@@ -247,18 +266,24 @@ int dec_server_net_message_process(DEC_SERVER server,
     
     /* get application name */
     g_string_append_len(conn->app_name, (char*)data, size);
-    printf("----COM_W_REGISTRE---\napp_name:%s\n\n", conn->app_name->str);
-
+    printf("----COM_W_REGISTRE---\napp_name:%s_create\t\t [OK]\n\n", conn->app_name->str);
+    
     /* send back a confirm information */
     util_message_packet_create((char**)&buf, (int32_t)COM_S_OK, (char*)NULL, (int32_t)0);
     bufferevent_write(bev, buf, COM_HEADER_SIZE);
     free(buf);
     break;
 
+    /* reducer register */
+  case COM_R_REGISTER:
+    if(size == 0 || data == NULL)
+      return G_OK;
+    break;
+
   case COM_W_BEAT:
     printf("----COM_W_BEAT---\nbeat fd:%d\n\n", fd);
    
-    conn=(DEC_SERVER_CONNECTION)g_hash_table_lookup(server->fd2worker, &fd);
+    conn=(DEC_WORKER_CONNECTION)g_hash_table_lookup(server->fd2worker, &fd);
     if(conn)
       conn->heartbeat=time(0);
     break;
@@ -266,7 +291,7 @@ int dec_server_net_message_process(DEC_SERVER server,
     /* create task file and send to worker */
   case COM_W_IDLE:
    
-    conn=(DEC_SERVER_CONNECTION)g_hash_table_lookup(server->fd2worker, &fd);
+    conn=(DEC_WORKER_CONNECTION)g_hash_table_lookup(server->fd2worker, &fd);
     if(conn){
       printf("----COM_W_IDLE---\nfd:%d\n\n", conn->fd);
       sprintf(task_path, "%s/%s", server->task_root_dir->str, conn->app_name->str);
@@ -276,8 +301,8 @@ int dec_server_net_message_process(DEC_SERVER server,
 	dec_server_send_task(conn);
 	return G_OK;
       }
-
-      sprintf(exe_path, "%s/%s", server->exe_root_dir->str, conn->app_name->str);
+      sprintf(name, "%s_create", conn->app_name->str);
+      sprintf(exe_path, "%s/%s", server->exe_root_dir->str, name);
       sprintf(task_file, "%s/task_%d_%d", task_path, conn->fd, conn->task_cnt++);
 
       
@@ -309,7 +334,7 @@ int dec_server_net_message_process(DEC_SERVER server,
 
 	/* execute task create program in child process */
 	if(pid == 0){	  
-	  execl(exe_path, conn->app_name->str, task_file, NULL);
+	  execl(exe_path, name, task_file, NULL);
 	  exit(0);
 	}
       }

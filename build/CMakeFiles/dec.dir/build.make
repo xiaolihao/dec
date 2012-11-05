@@ -38,10 +38,10 @@ EQUALS = =
 CMAKE_EDIT_COMMAND = /opt/local/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/tll007/dev/elab/dec
+CMAKE_SOURCE_DIR = /Users/tll007/dev/dec
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/tll007/dev/elab/dec/build
+CMAKE_BINARY_DIR = /Users/tll007/dev/dec/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/dec.dir/depend.make
@@ -54,17 +54,17 @@ include CMakeFiles/dec.dir/flags.make
 
 CMakeFiles/dec.dir/src/g_dec_serv.c.o: CMakeFiles/dec.dir/flags.make
 CMakeFiles/dec.dir/src/g_dec_serv.c.o: ../src/g_dec_serv.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/elab/dec/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/dec/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/dec.dir/src/g_dec_serv.c.o"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/dec.dir/src/g_dec_serv.c.o   -c /Users/tll007/dev/elab/dec/src/g_dec_serv.c
+	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/dec.dir/src/g_dec_serv.c.o   -c /Users/tll007/dev/dec/src/g_dec_serv.c
 
 CMakeFiles/dec.dir/src/g_dec_serv.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/dec.dir/src/g_dec_serv.c.i"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -E /Users/tll007/dev/elab/dec/src/g_dec_serv.c > CMakeFiles/dec.dir/src/g_dec_serv.c.i
+	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -E /Users/tll007/dev/dec/src/g_dec_serv.c > CMakeFiles/dec.dir/src/g_dec_serv.c.i
 
 CMakeFiles/dec.dir/src/g_dec_serv.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/dec.dir/src/g_dec_serv.c.s"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -S /Users/tll007/dev/elab/dec/src/g_dec_serv.c -o CMakeFiles/dec.dir/src/g_dec_serv.c.s
+	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -S /Users/tll007/dev/dec/src/g_dec_serv.c -o CMakeFiles/dec.dir/src/g_dec_serv.c.s
 
 CMakeFiles/dec.dir/src/g_dec_serv.c.o.requires:
 .PHONY : CMakeFiles/dec.dir/src/g_dec_serv.c.o.requires
@@ -77,17 +77,17 @@ CMakeFiles/dec.dir/src/g_dec_serv.c.o.provides.build: CMakeFiles/dec.dir/src/g_d
 
 CMakeFiles/dec.dir/src/g_dec_util.c.o: CMakeFiles/dec.dir/flags.make
 CMakeFiles/dec.dir/src/g_dec_util.c.o: ../src/g_dec_util.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/elab/dec/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/dec/build/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/dec.dir/src/g_dec_util.c.o"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/dec.dir/src/g_dec_util.c.o   -c /Users/tll007/dev/elab/dec/src/g_dec_util.c
+	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/dec.dir/src/g_dec_util.c.o   -c /Users/tll007/dev/dec/src/g_dec_util.c
 
 CMakeFiles/dec.dir/src/g_dec_util.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/dec.dir/src/g_dec_util.c.i"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -E /Users/tll007/dev/elab/dec/src/g_dec_util.c > CMakeFiles/dec.dir/src/g_dec_util.c.i
+	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -E /Users/tll007/dev/dec/src/g_dec_util.c > CMakeFiles/dec.dir/src/g_dec_util.c.i
 
 CMakeFiles/dec.dir/src/g_dec_util.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/dec.dir/src/g_dec_util.c.s"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -S /Users/tll007/dev/elab/dec/src/g_dec_util.c -o CMakeFiles/dec.dir/src/g_dec_util.c.s
+	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -S /Users/tll007/dev/dec/src/g_dec_util.c -o CMakeFiles/dec.dir/src/g_dec_util.c.s
 
 CMakeFiles/dec.dir/src/g_dec_util.c.o.requires:
 .PHONY : CMakeFiles/dec.dir/src/g_dec_util.c.o.requires
@@ -100,17 +100,17 @@ CMakeFiles/dec.dir/src/g_dec_util.c.o.provides.build: CMakeFiles/dec.dir/src/g_d
 
 CMakeFiles/dec.dir/src/g_dec_worker.c.o: CMakeFiles/dec.dir/flags.make
 CMakeFiles/dec.dir/src/g_dec_worker.c.o: ../src/g_dec_worker.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/elab/dec/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/dec/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/dec.dir/src/g_dec_worker.c.o"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/dec.dir/src/g_dec_worker.c.o   -c /Users/tll007/dev/elab/dec/src/g_dec_worker.c
+	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/dec.dir/src/g_dec_worker.c.o   -c /Users/tll007/dev/dec/src/g_dec_worker.c
 
 CMakeFiles/dec.dir/src/g_dec_worker.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/dec.dir/src/g_dec_worker.c.i"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -E /Users/tll007/dev/elab/dec/src/g_dec_worker.c > CMakeFiles/dec.dir/src/g_dec_worker.c.i
+	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -E /Users/tll007/dev/dec/src/g_dec_worker.c > CMakeFiles/dec.dir/src/g_dec_worker.c.i
 
 CMakeFiles/dec.dir/src/g_dec_worker.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/dec.dir/src/g_dec_worker.c.s"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -S /Users/tll007/dev/elab/dec/src/g_dec_worker.c -o CMakeFiles/dec.dir/src/g_dec_worker.c.s
+	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -S /Users/tll007/dev/dec/src/g_dec_worker.c -o CMakeFiles/dec.dir/src/g_dec_worker.c.s
 
 CMakeFiles/dec.dir/src/g_dec_worker.c.o.requires:
 .PHONY : CMakeFiles/dec.dir/src/g_dec_worker.c.o.requires
@@ -153,6 +153,6 @@ CMakeFiles/dec.dir/clean:
 .PHONY : CMakeFiles/dec.dir/clean
 
 CMakeFiles/dec.dir/depend:
-	cd /Users/tll007/dev/elab/dec/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/tll007/dev/elab/dec /Users/tll007/dev/elab/dec /Users/tll007/dev/elab/dec/build /Users/tll007/dev/elab/dec/build /Users/tll007/dev/elab/dec/build/CMakeFiles/dec.dir/DependInfo.cmake --color=$(COLOR)
+	cd /Users/tll007/dev/dec/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/tll007/dev/dec /Users/tll007/dev/dec /Users/tll007/dev/dec/build /Users/tll007/dev/dec/build /Users/tll007/dev/dec/build/CMakeFiles/dec.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/dec.dir/depend
 

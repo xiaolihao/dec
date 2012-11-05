@@ -38,13 +38,21 @@ event2/listener.h
 event2/util.h
 -
 
+../include/g_dec_serv.h
+
 ../include/g_dec_worker.h
 
-/Users/tll007/dev/elab/dec/src/g_dec_worker.c
+/Users/tll007/dev/dec/src/g_dec_serv.c
 g_dec_internal.h
-/Users/tll007/dev/elab/dec/src/g_dec_internal.h
+/Users/tll007/dev/dec/src/g_dec_internal.h
+g_dec_serv.h
+/Users/tll007/dev/dec/src/g_dec_serv.h
+
+/Users/tll007/dev/dec/src/g_dec_worker.c
+g_dec_internal.h
+/Users/tll007/dev/dec/src/g_dec_internal.h
 g_dec_worker.h
-/Users/tll007/dev/elab/dec/src/g_dec_worker.h
+/Users/tll007/dev/dec/src/g_dec_worker.h
 
 /opt/local/include/event2/buffer.h
 event2/event-config.h

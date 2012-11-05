@@ -157,6 +157,6 @@ int main(int argc, char* argv[]){
     return 1;
   }
   g_dec_worker_start(worker);
-  
+  g_markup_parse_context_free(context);
   return 0;
 }

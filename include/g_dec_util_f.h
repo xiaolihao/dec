@@ -20,3 +20,5 @@ void util_save_file(char* data,
 		    int32_t size,
 		    char* path,
 		    char* file_name);
+
+int util_file_existence(char *full_file_path);

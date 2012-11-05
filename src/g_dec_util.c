@@ -20,6 +20,14 @@ int util_mkdir_with_path(char *path){
   return g_mkdir_with_parents(path, 0755);
 }
 
+int util_file_existence(char *full_file_path){
+  
+  if(g_access(full_file_path, F_OK) == 0)
+    return G_OK;
+  else
+    return G_ERROR;
+}
+
 int util_dir_empty(char *path){
   GDir *dir=g_dir_open(path, 0, NULL);
   char *file=NULL;

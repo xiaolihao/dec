@@ -142,5 +142,6 @@ int main(int argc, char *argv[]){
     }
 
     g_dec_server_start(server);
+    g_markup_parse_context_free(context);
     return 0;
 }

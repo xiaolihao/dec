@@ -28,7 +28,7 @@ g_dec_worker_f.h
 
 ../include/g_dec_worker_f.h
 
-/Users/tll007/dev/elab/dec/src/_worker.c
+/Users/tll007/dev/dec/src/_worker.c
 stdio.h
 -
 stdlib.h
@@ -36,7 +36,7 @@ stdlib.h
 glib.h
 -
 dec.h
-/Users/tll007/dev/elab/dec/src/dec.h
+/Users/tll007/dev/dec/src/dec.h
 
 /opt/local/include/glib-2.0/glib.h
 glib/galloca.h

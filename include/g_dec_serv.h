@@ -3,7 +3,9 @@
 #define evutil_socket_t int
 
 typedef struct _dec_server *DEC_SERVER;
-typedef struct _dec_server_connection *DEC_SERVER_CONNECTION;
+typedef struct _dec_worker_connection *DEC_WORKER_CONNECTION;
+typedef struct _dec_reducer_connection *DEC_REDUCER_CONNECTION;
+
 
 /* struct defined in event2 */
 struct event_base;
@@ -15,8 +17,22 @@ struct _GQueue;
 struct _GHashTable;
 struct _GString;
 
-/* node information triggered by event */
-struct _dec_server_connection{
+
+struct _dec_reducer_connection{
+  
+  int fd;
+  
+  struct bufferevent *bev;
+  
+  int32_t heartbeat;
+
+  struct _GString *ip;
+  
+  int32_t port;
+};
+
+/* worker node information triggered by event */
+struct _dec_worker_connection{
   int fd;
 
   struct bufferevent *bev;

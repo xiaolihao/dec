@@ -29,6 +29,13 @@ static void dec_worker_task_check_cb(evutil_socket_t fd,
   char *buf=NULL;
   
   waitpid(-1, NULL, 0);
+
+  
+  /* try to upload results file to reducer node */
+  /* ... */
+  
+
+
   sleep(1);
 
   /* send idle mesage */
@@ -50,7 +57,7 @@ int dec_worker_net_message_process(DEC_WORKER worker,
   char *buf=NULL;
   char task_path[1024], exe_path[1024];
   pid_t pid=-1;
-
+  char msg[1024];
 
   fd = bufferevent_getfd(bev);
 
@@ -74,6 +81,16 @@ int dec_worker_net_message_process(DEC_WORKER worker,
 
       worker->state=WORKER_STATE_IDLE;
       free(buf);
+      break;
+    }
+    
+    else if(type == COM_S_ERROR){
+      strncpy(msg, data, size);
+      msg[size]='\0';
+      printf("server error: %s\n\n", msg);
+
+      g_dec_worker_free(worker);
+      exit(-1);
     }
     break;
 

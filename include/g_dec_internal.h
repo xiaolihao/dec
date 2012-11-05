@@ -55,7 +55,7 @@ extern "C" {
 #define COM_W_TASK_NONE 13
 
 #define COM_S_BUSY 14
- 
+
 #define G_OK 0
 #define G_ERROR -1
 
@@ -68,6 +68,9 @@ enum _dec_worker_state{
 
 #define BEAT_INTERNAL 10
 
+
+
+#define COM_S_ERROR_MSG_NO_EXE "NO EXE ON SERVER"
 
 #ifdef __cplusplus
 }

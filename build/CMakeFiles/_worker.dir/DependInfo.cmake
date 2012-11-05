@@ -4,13 +4,13 @@ SET(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 SET(CMAKE_DEPENDS_CHECK_C
-  "/Users/tll007/dev/elab/dec/src/_worker.c" "/Users/tll007/dev/elab/dec/build/CMakeFiles/_worker.dir/src/_worker.c.o"
+  "/Users/tll007/dev/dec/src/_worker.c" "/Users/tll007/dev/dec/build/CMakeFiles/_worker.dir/src/_worker.c.o"
   )
 SET(CMAKE_C_COMPILER_ID "GNU")
 
 # Targets to which this target links.
 SET(CMAKE_TARGET_LINKED_INFO_FILES
-  "/Users/tll007/dev/elab/dec/build/CMakeFiles/dec.dir/DependInfo.cmake"
+  "/Users/tll007/dev/dec/build/CMakeFiles/dec.dir/DependInfo.cmake"
   )
 
 # The include file search paths:

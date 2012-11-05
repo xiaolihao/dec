@@ -38,10 +38,10 @@ EQUALS = =
 CMAKE_EDIT_COMMAND = /opt/local/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/tll007/dev/elab/dec
+CMAKE_SOURCE_DIR = /Users/tll007/dev/dec
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/tll007/dev/elab/dec/build
+CMAKE_BINARY_DIR = /Users/tll007/dev/dec/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/_serv.dir/depend.make
@@ -54,17 +54,17 @@ include CMakeFiles/_serv.dir/flags.make
 
 CMakeFiles/_serv.dir/src/_serv.c.o: CMakeFiles/_serv.dir/flags.make
 CMakeFiles/_serv.dir/src/_serv.c.o: ../src/_serv.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/elab/dec/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/dec/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/_serv.dir/src/_serv.c.o"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/_serv.dir/src/_serv.c.o   -c /Users/tll007/dev/elab/dec/src/_serv.c
+	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/_serv.dir/src/_serv.c.o   -c /Users/tll007/dev/dec/src/_serv.c
 
 CMakeFiles/_serv.dir/src/_serv.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/_serv.dir/src/_serv.c.i"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -E /Users/tll007/dev/elab/dec/src/_serv.c > CMakeFiles/_serv.dir/src/_serv.c.i
+	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -E /Users/tll007/dev/dec/src/_serv.c > CMakeFiles/_serv.dir/src/_serv.c.i
 
 CMakeFiles/_serv.dir/src/_serv.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/_serv.dir/src/_serv.c.s"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -S /Users/tll007/dev/elab/dec/src/_serv.c -o CMakeFiles/_serv.dir/src/_serv.c.s
+	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -S /Users/tll007/dev/dec/src/_serv.c -o CMakeFiles/_serv.dir/src/_serv.c.s
 
 CMakeFiles/_serv.dir/src/_serv.c.o.requires:
 .PHONY : CMakeFiles/_serv.dir/src/_serv.c.o.requires
@@ -101,6 +101,6 @@ CMakeFiles/_serv.dir/clean:
 .PHONY : CMakeFiles/_serv.dir/clean
 
 CMakeFiles/_serv.dir/depend:
-	cd /Users/tll007/dev/elab/dec/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/tll007/dev/elab/dec /Users/tll007/dev/elab/dec /Users/tll007/dev/elab/dec/build /Users/tll007/dev/elab/dec/build /Users/tll007/dev/elab/dec/build/CMakeFiles/_serv.dir/DependInfo.cmake --color=$(COLOR)
+	cd /Users/tll007/dev/dec/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/tll007/dev/dec /Users/tll007/dev/dec /Users/tll007/dev/dec/build /Users/tll007/dev/dec/build /Users/tll007/dev/dec/build/CMakeFiles/_serv.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/_serv.dir/depend
 
