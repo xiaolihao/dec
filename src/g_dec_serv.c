@@ -2,10 +2,131 @@
 #include "g_dec_serv.h"
 
 
+int dec_server_reducer_connection_padding(DEC_REDUCER_CONNECTION conn,
+					  char *data,
+					  int32_t size){
 
-DEC_WORKER_CONNECTION dec_server_connection_init(struct bufferevent *bev,
-						 int32_t fd,
-						 DEC_SERVER server){
+  int32_t offset=0;
+  unsigned char sz=0, cnt=0;
+  struct _GString *app=NULL;
+
+  /* ip data */
+  if(offset+1 > size)
+    return G_ERROR;
+
+  sz = *data;
+  ++offset;
+  
+  if(offset+sz > size)
+    return G_ERROR;
+  
+  g_string_append_len(conn->ip, data+offset, sz);
+  offset += sz;
+
+  /* port data */
+  if(offset+1 > size)
+    return G_ERROR;
+
+  sz = *(data+offset);
+  ++offset;
+
+  if(offset+sz>size)
+    return G_ERROR;
+  g_string_append_len(conn->port, data+offset, sz);
+  offset += sz;
+
+  /* app data */
+  if(offset+1>size)
+    return G_ERROR;
+
+  cnt=*(data+offset);
+  ++offset;
+
+  conn->count=cnt;
+
+  while(cnt-->0){
+    
+    if(offset+1>size)
+      return G_ERROR;
+    
+    sz = *(data+offset);
+    ++offset;
+
+    if(offset+sz>size)
+      return G_ERROR;
+    
+    app = g_string_new("");
+    g_string_append_len(app, data+offset, sz);
+    offset += sz;
+
+    g_ptr_array_add(conn->app_name_array, app);
+    
+  }
+
+  return G_OK;
+}
+
+DEC_REDUCER_CONNECTION dec_server_reducer_connection_init(struct bufferevent *bev,
+							  int32_t fd,
+							  DEC_SERVER server){
+  DEC_REDUCER_CONNECTION conn=NULL;
+  
+  conn = (DEC_REDUCER_CONNECTION)malloc(sizeof(struct _dec_reducer_connection));
+  if(!conn)
+    return NULL;
+
+  conn->fd = fd;
+  conn->bev=bev;
+  conn->server=server;
+  conn->heartbeat=time(0);
+  conn->port=g_string_new("");
+  conn->ip=g_string_new("");
+  if(!conn->ip||!conn->port){
+    free(conn);
+    return NULL;
+  }
+
+  conn->app_name_array=g_ptr_array_new();
+  if(!conn->app_name_array){
+    g_string_free(conn->ip, TRUE);
+    g_string_free(conn->port, TRUE);
+    free(conn);
+    return NULL;
+  }
+
+  return conn;
+}
+
+void dec_server_reducer_connection_display(DEC_REDUCER_CONNECTION conn){
+  int idx=0;
+
+  printf("----COM_R_REGISTRE---\n");
+  printf("ip\t\t\t%s\nport\t\t\t%s\n", conn->ip->str, conn->port->str);
+  printf("app_name\t\t");
+  for(; idx<conn->count; ++idx){
+    printf("%s", ((struct _GString*)g_ptr_array_index(conn->app_name_array, idx))->str);
+    if(idx<conn->count-1)
+      printf(",");
+  }
+  printf("\n\n");
+}
+
+void dec_server_reducer_connection_free(DEC_REDUCER_CONNECTION conn){
+
+  int idx=0;
+  bufferevent_disable(conn->bev, EV_READ|EV_WRITE);
+  bufferevent_free(conn->bev);
+  g_string_free(conn->ip, TRUE);
+  g_string_free(conn->port, TRUE);
+  for(; idx<conn->count; ++idx)
+    g_string_free(g_ptr_array_index(conn->app_name_array, idx), TRUE);
+  g_ptr_array_free(conn->app_name_array, TRUE);
+  free(conn);
+}
+
+DEC_WORKER_CONNECTION dec_server_worker_connection_init(struct bufferevent *bev,
+							int32_t fd,
+							DEC_SERVER server){
   DEC_WORKER_CONNECTION conn=NULL;
 
   conn=(DEC_WORKER_CONNECTION)malloc(sizeof(struct _dec_worker_connection));
@@ -26,7 +147,7 @@ DEC_WORKER_CONNECTION dec_server_connection_init(struct bufferevent *bev,
   return conn;
 }
 
-void dec_server_connection_free(DEC_WORKER_CONNECTION conn){
+void dec_server_worker_connection_free(DEC_WORKER_CONNECTION conn){
 
   bufferevent_disable(conn->bev, EV_READ|EV_WRITE);
   bufferevent_free(conn->bev);
@@ -34,32 +155,37 @@ void dec_server_connection_free(DEC_WORKER_CONNECTION conn){
   free(conn);
 }
 
-void dec_server_worker_add_by_fd(DEC_SERVER server,
-				 int32_t fd,
-				 DEC_WORKER_CONNECTION conn){
+
+void dec_server_hash_table_int_key_add(struct _GHashTable *hash_table,
+				       int32_t key,
+				       void* value){
  
   /* MUST use dynamic memory */
-  int32_t *key=NULL;
-  key = (int32_t*)malloc(sizeof(int32_t));
+  int32_t *tmp=NULL;
+  tmp = (int32_t*)malloc(sizeof(int32_t));
 
-  assert(key);
+  assert(tmp);
 
-  *key = fd;
-  g_hash_table_insert(server->fd2worker, key, conn);
+  *tmp = key;
+  g_hash_table_insert(hash_table, tmp, value);
 }
 
 
-void dec_server_int_key_destroy(gpointer key){
+void dec_server_key_simple_destroy(gpointer key){
   free(key);
 }
 
 void dec_server_fd2worker_value_destroy(gpointer value){
-  dec_server_connection_free((DEC_WORKER_CONNECTION)value);
+  dec_server_worker_connection_free((DEC_WORKER_CONNECTION)value);
 }
 
-gboolean _dec_server_state_check(gpointer key,
-		  gpointer value,
-		  gpointer p){
+void dec_server_fd2reducer_value_destroy(gpointer value){
+  dec_server_reducer_connection_free((DEC_REDUCER_CONNECTION)value);
+}
+
+gboolean _dec_server_worker_state_check(gpointer key,
+					gpointer value,
+					gpointer p){
   
    DEC_WORKER_CONNECTION conn=(DEC_WORKER_CONNECTION)value;
    
@@ -70,13 +196,38 @@ gboolean _dec_server_state_check(gpointer key,
      return FALSE;
 }
 
+gboolean _dec_server_reducer_state_check(gpointer key,
+					 gpointer value,
+					 gpointer p){
+  
+   DEC_REDUCER_CONNECTION conn=(DEC_REDUCER_CONNECTION)value;
+   int32_t idx=0;
+   struct _GQueue *queue=NULL;
+
+   /* if timeout, delete the connection */
+   if(time(0)-conn->heartbeat >= conn->server->connection_max_timeout){
+     for(idx=0; idx<conn->count; ++idx){
+       queue=g_hash_table_lookup(conn->server->app2reducer_queue, 
+				 ((struct _GString*)g_ptr_array_index(conn->app_name_array, idx))->str);
+       /* remove from queue */
+       if(queue)
+	 g_queue_remove(queue, conn);
+
+     }
+     return TRUE;
+   }
+   else
+     return FALSE;
+}
+
 static void dec_server_state_check_cb(evutil_socket_t fd,
-			   short event,
-			   void *p){
+				      short event,
+				      void *p){
 
   DEC_SERVER server=(DEC_SERVER)p;
   
-  g_hash_table_foreach_remove(server->fd2worker, _dec_server_state_check, server);
+  g_hash_table_foreach_remove(server->fd2worker, _dec_server_worker_state_check, server);
+  g_hash_table_foreach_remove(server->fd2reducer, _dec_server_reducer_state_check, server);
 
   /* reset timer */
   server->st_tv.tv_sec = server->connection_check_internal;
@@ -126,8 +277,8 @@ static void dec_server_send_task(DEC_WORKER_CONNECTION conn){
 }
 
 static void dec_server_task_check_cb(evutil_socket_t fd,
-			   short event,
-			   void *p){
+				     short event,
+				     void *p){
 
   DEC_SERVER server=(DEC_SERVER)p;
   DEC_WORKER_CONNECTION conn=NULL;
@@ -152,6 +303,9 @@ static void dec_server_net_event_callback(struct bufferevent *bev,
 					  void *p){
   int fd=-1;
   DEC_SERVER server=(DEC_SERVER)p;
+  DEC_REDUCER_CONNECTION conn=NULL;
+  struct _GQueue *queue=NULL;
+  int32_t idx=0;
 
   fd = bufferevent_getfd(bev);
   printf("Got an event in net server: %s\n",
@@ -163,12 +317,29 @@ static void dec_server_net_event_callback(struct bufferevent *bev,
 	perror("connection error");
     }
 
-    g_hash_table_remove(server->fd2worker, &fd);
+    /* worker node error */
+    if(g_hash_table_contains(server->fd2worker, &fd))
+      g_hash_table_remove(server->fd2worker, &fd);
+
+    /* reducer node error */
+    if(g_hash_table_contains(server->fd2reducer, &fd)){
+      conn=g_hash_table_lookup(server->fd2reducer, &fd);
+
+      for(idx=0; idx<conn->count; ++idx){
+	queue=g_hash_table_lookup(server->app2reducer_queue, 
+				  ((struct _GString*)g_ptr_array_index(conn->app_name_array, idx))->str);
+	/* remove from queue */
+	if(queue)
+	  g_queue_remove(queue, conn);
+      }
+
+      g_hash_table_remove(server->fd2reducer, &fd);
+    }
   }
 }
 
 static void dec_server_net_message_read_callback(struct bufferevent *bev,
-						  void *p){
+						 void *p){
   DEC_SERVER server=(DEC_SERVER)p;
   struct evbuffer *src=NULL;
   size_t len=0;
@@ -222,17 +393,21 @@ static void dec_server_net_message_read_callback(struct bufferevent *bev,
 
 
 int dec_server_net_message_process(DEC_SERVER server,
-				    struct bufferevent *bev,
-				    int32_t type,
-				    void *data,
-				    int32_t size){
-  DEC_WORKER_CONNECTION conn=NULL;
+				   struct bufferevent *bev,
+				   int32_t type,
+				   void *data,
+				   int32_t size){
+  DEC_WORKER_CONNECTION worker_conn=NULL;
+  DEC_REDUCER_CONNECTION reducer_conn=NULL;
   int32_t fd=-1;
   char *buf=NULL;
   char task_path[1024]={0}, exe_path[1024]={0}, task_file[1024]={0};
   pid_t pid=-1;
   int32_t *pid_key=NULL;
   char name[1024]={0};
+  int32_t idx=0;
+  struct _GQueue *queue=NULL;
+
 
   fd = bufferevent_getfd(bev);
 
@@ -260,13 +435,13 @@ int dec_server_net_message_process(DEC_SERVER server,
     }
     
     /* create a new connection and add to worker table */
-    conn=dec_server_connection_init(bev, fd, server);
-    assert(conn);
-    dec_server_worker_add_by_fd(server, fd, conn);
+    worker_conn=dec_server_worker_connection_init(bev, fd, server);
+    assert(worker_conn);
+    dec_server_hash_table_int_key_add(server->fd2worker, fd, worker_conn);
     
     /* get application name */
-    g_string_append_len(conn->app_name, (char*)data, size);
-    printf("----COM_W_REGISTRE---\napp_name:%s_create\t\t [OK]\n\n", conn->app_name->str);
+    g_string_append_len(worker_conn->app_name, (char*)data, size);
+    printf("----COM_W_REGISTRE---\napp_name:%s_create\t\t [OK]\n\n", worker_conn->app_name->str);
     
     /* send back a confirm information */
     util_message_packet_create((char**)&buf, (int32_t)COM_S_OK, (char*)NULL, (int32_t)0);
@@ -278,32 +453,85 @@ int dec_server_net_message_process(DEC_SERVER server,
   case COM_R_REGISTER:
     if(size == 0 || data == NULL)
       return G_OK;
+    reducer_conn = dec_server_reducer_connection_init(bev, fd, server);
+    assert(reducer_conn);
+    
+    if(dec_server_reducer_connection_padding(reducer_conn, data, size) != G_OK){
+      dec_server_reducer_connection_free(reducer_conn);
+      
+      util_message_packet_create((char**)&buf, 
+				 (int32_t)COM_S_ERROR, 
+				 (char*)COM_S_ERROR_MSG_FAIL_EX_MSG, 
+				 (int32_t)strlen(COM_S_ERROR_MSG_FAIL_EX_MSG));
+      bufferevent_write(bev, buf, COM_HEADER_SIZE+strlen(COM_S_ERROR_MSG_FAIL_EX_MSG));
+      free(buf);
+
+      printf("----COM_R_REGISTRE---\nextract register msg\t\t[ERROR]\n\n");
+      break;
+    }
+    
+    dec_server_reducer_connection_display(reducer_conn);
+    dec_server_hash_table_int_key_add(server->fd2reducer, fd, reducer_conn);
+
+    for(; idx<reducer_conn->count; ++idx){
+      queue=g_hash_table_lookup(server->app2reducer_queue,
+				((struct _GString*)g_ptr_array_index(reducer_conn->app_name_array, idx))->str);
+      
+      /* queue for this app is existence */
+      if(queue){
+	g_queue_push_tail(queue, reducer_conn);
+      }
+      
+      /* not existence */
+      else{
+	queue = g_queue_new();
+	assert(queue);
+	g_hash_table_insert(server->app2reducer_queue, 
+			    ((struct _GString*)g_ptr_array_index(reducer_conn->app_name_array, idx))->str,
+			    queue);
+	g_queue_push_tail(queue, reducer_conn);
+      }
+    }
+
+    /* send back a confirm information */
+    util_message_packet_create((char**)&buf, (int32_t)COM_S_OK, (char*)NULL, (int32_t)0);
+    bufferevent_write(bev, buf, COM_HEADER_SIZE);
+    free(buf);
+
     break;
 
   case COM_W_BEAT:
     printf("----COM_W_BEAT---\nbeat fd:%d\n\n", fd);
    
-    conn=(DEC_WORKER_CONNECTION)g_hash_table_lookup(server->fd2worker, &fd);
-    if(conn)
-      conn->heartbeat=time(0);
+    worker_conn=(DEC_WORKER_CONNECTION)g_hash_table_lookup(server->fd2worker, &fd);
+    if(worker_conn)
+      worker_conn->heartbeat=time(0);
+    break;
+
+  case COM_R_BEAT:
+    printf("----COM_R_BEAT---\nbeat fd:%d\n\n", fd);
+   
+    reducer_conn=(DEC_REDUCER_CONNECTION)g_hash_table_lookup(server->fd2reducer, &fd);
+    if(reducer_conn)
+      reducer_conn->heartbeat=time(0);
     break;
 
     /* create task file and send to worker */
   case COM_W_IDLE:
    
-    conn=(DEC_WORKER_CONNECTION)g_hash_table_lookup(server->fd2worker, &fd);
-    if(conn){
-      printf("----COM_W_IDLE---\nfd:%d\n\n", conn->fd);
-      sprintf(task_path, "%s/%s", server->task_root_dir->str, conn->app_name->str);
+    worker_conn=(DEC_WORKER_CONNECTION)g_hash_table_lookup(server->fd2worker, &fd);
+    if(worker_conn){
+      printf("----COM_W_IDLE---\nfd:%d\n\n", worker_conn->fd);
+      sprintf(task_path, "%s/%s", server->task_root_dir->str, worker_conn->app_name->str);
 
       /* read old task first */
       if(util_dir_empty(task_path) != G_OK){
-	dec_server_send_task(conn);
+	dec_server_send_task(worker_conn);
 	return G_OK;
       }
-      sprintf(name, "%s_create", conn->app_name->str);
+      sprintf(name, "%s_create", worker_conn->app_name->str);
       sprintf(exe_path, "%s/%s", server->exe_root_dir->str, name);
-      sprintf(task_file, "%s/task_%d_%d", task_path, conn->fd, conn->task_cnt++);
+      sprintf(task_file, "%s/task_%d_%d", task_path, worker_conn->fd, worker_conn->task_cnt++);
 
       
       
@@ -315,7 +543,7 @@ int dec_server_net_message_process(DEC_SERVER server,
 	if(pid == -1){
 	  /* send server busy message to worker */
 	  util_message_packet_create((char**)&buf, (int32_t)COM_S_BUSY, (char*)NULL, (int32_t)0);
-	  bufferevent_write(conn->bev, buf, COM_HEADER_SIZE);
+	  bufferevent_write(worker_conn->bev, buf, COM_HEADER_SIZE);
 	  free(buf);
 	  return G_OK;
 	}
@@ -327,7 +555,7 @@ int dec_server_net_message_process(DEC_SERVER server,
 	  *pid_key=pid;
 
 	  /* add pid to trigger table */
-	  g_hash_table_insert(server->pid2worker, pid_key, conn);
+	  g_hash_table_insert(server->pid2worker, pid_key, worker_conn);
 	  return G_OK;
 	}
 
@@ -444,14 +672,26 @@ DEC_SERVER g_dec_server_init(char *port,
 
   server->fd2worker = g_hash_table_new_full(g_int_hash, 
 					    g_int_equal,
-					    dec_server_int_key_destroy,
+					    dec_server_key_simple_destroy,
 					    dec_server_fd2worker_value_destroy);
 
   server->pid2worker = g_hash_table_new_full(g_int_hash, 
 					     g_int_equal,
-					     dec_server_int_key_destroy,
+					     dec_server_key_simple_destroy,
 					     NULL);/* can't delete connnection */
-  if(!server->fd2worker||!server->pid2worker)
+
+  server->fd2reducer = g_hash_table_new_full(g_int_hash,
+					     g_int_equal,
+					     dec_server_key_simple_destroy,
+					     dec_server_fd2reducer_value_destroy);
+  server->app2reducer_queue = g_hash_table_new_full(g_str_hash,
+						    g_str_equal,
+						    dec_server_key_simple_destroy,
+						    NULL);
+  if(!server->fd2worker  ||
+     !server->pid2worker ||
+     !server->fd2reducer ||
+     !server->app2reducer_queue)
     return NULL;
 
 

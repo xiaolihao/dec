@@ -66,12 +66,18 @@ enum _dec_worker_state{
   WORKER_STATE_BUSY
 };
 
+enum _dec_reducer_state{
+  REDUCER_STATE_REGISTER=2000,
+  REDUCER_STATE_IDLE,
+  REDUCER_STATE_BUSY
+};
+
 #define BEAT_INTERNAL 10
 
 
 
 #define COM_S_ERROR_MSG_NO_EXE "NO EXE ON SERVER"
-
+#define COM_S_ERROR_MSG_FAIL_EX_MSG "FAIL TO EXTRACT REGISTER MSG"
 #ifdef __cplusplus
 }
 #endif

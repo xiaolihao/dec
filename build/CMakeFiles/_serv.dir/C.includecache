@@ -11,12 +11,20 @@ g_dec_serv.h
 ../include/g_dec_serv.h
 g_dec_worker.h
 ../include/g_dec_worker.h
+g_dec_reducer.h
+../include/g_dec_reducer.h
 g_dec_util_f.h
 ../include/g_dec_util_f.h
 g_dec_serv_f.h
 ../include/g_dec_serv_f.h
 g_dec_worker_f.h
 ../include/g_dec_worker_f.h
+g_dec_reducer_f.h
+../include/g_dec_reducer_f.h
+
+../include/g_dec_reducer.h
+
+../include/g_dec_reducer_f.h
 
 ../include/g_dec_serv.h
 

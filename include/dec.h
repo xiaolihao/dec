@@ -7,11 +7,12 @@ extern "C" {
 
 #include "g_dec_serv.h"
 #include "g_dec_worker.h"
-
+#include "g_dec_reducer.h"
 
 #include "g_dec_util_f.h"
 #include "g_dec_serv_f.h"
 #include "g_dec_worker_f.h"
+#include "g_dec_reducer_f.h"
 
 #ifdef __cplusplus
 }

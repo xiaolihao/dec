@@ -1,6 +1,87 @@
 #include "g_dec_internal.h"
 
 
+
+
+
+/** reducer register packet format
+ *
+ * ----package header(12 bytes)----
+ * command type(4 bytes, unsigned int)
+ * reserved(4 bytes, padding by 0)
+ * data size(4 bytes, unsigned int)
+ *
+ * ----data----
+ * ip len(1 byte)
+ * ip string...
+ * port len(1 byte)
+ * port string...
+ * app count(1 byte)
+ * app1 len(1 byte)
+ * app1 string...
+ * app2 len(1 byte)
+ * app2 string...
+ * ...
+ */
+
+void util_reducer_register_data_create(char **buf,
+				       int32_t *size,
+				       char *ip,
+				       char *port,
+				       char *apps[],
+				       int32_t count){
+  int32_t len=0, idx=0;
+  unsigned char sz=0;
+  int32_t offset=0;
+
+  for(; idx<count; ++idx)
+    len += strlen(apps[idx])+1;
+  
+  len++;
+  len += strlen(ip)+strlen(port)+2;
+  
+  *buf = (char*)malloc(len);
+  assert(*buf);
+
+  *size = len;
+
+  /* ip data */
+  sz = strlen(ip);
+  memcpy(*buf, &sz, 1);
+  offset++;
+  memcpy(*buf+offset, ip, sz);
+  offset += sz;
+
+
+  /* port data */
+  sz = strlen(port);
+  memcpy(*buf+offset, &sz, 1);
+  offset++;
+  memcpy(*buf+offset, port, sz);
+  offset += sz;
+
+  
+  /* count of apps */
+  
+  /* count info */
+  sz = count;
+  memcpy(*buf+offset, &sz, 1);
+  offset++;
+
+  for(idx=0; idx<count; ++idx){
+
+    sz = strlen(apps[idx]);
+    memcpy(*buf+offset, &sz, 1);
+    offset++;
+
+    memcpy(*buf+offset, apps[idx], sz);
+    offset += sz;
+  }
+  
+}
+
+
+
 void util_message_packet_create(char **buf,
 				int32_t type,
 				char *data,

@@ -3,6 +3,8 @@
 
 CMakeFiles/_serv.dir/src/_serv.c.o
  ../include/dec.h
+ ../include/g_dec_reducer.h
+ ../include/g_dec_reducer_f.h
  ../include/g_dec_serv.h
  ../include/g_dec_serv_f.h
  ../include/g_dec_util_f.h

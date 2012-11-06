@@ -16,7 +16,8 @@ LINK_DIRECTORIES(${_dec_SOURCE_DIR}/lib
 SET(src_list	
 	src/g_dec_serv.c
 	src/g_dec_util.c
-	src/g_dec_worker.c)
+	src/g_dec_worker.c
+	src/g_dec_reducer.c)
 ADD_LIBRARY(dec ${src_list})
 TARGET_LINK_LIBRARIES(dec  event glib-2.0.0)
 
@@ -26,3 +27,5 @@ TARGET_LINK_LIBRARIES(_serv dec event glib-2.0.0)
 ADD_EXECUTABLE(_worker src/_worker.c)
 TARGET_LINK_LIBRARIES(_worker dec event glib-2.0.0)
 
+ADD_EXECUTABLE(_reducer src/_reducer.c)
+TARGET_LINK_LIBRARIES(_reducer dec event glib-2.0.0)

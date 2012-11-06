@@ -3,5 +3,5 @@
 	<ExecRootDir>./exe</ExecRootDir>
 	<ListenPort>9000</ListenPort>
 	<ConnCheckInternal>20</ConnCheckInternal>
-	<ConnMaxTimeout>60</ConnMaxTimeout>
+	<ConnMaxTimeout>4</ConnMaxTimeout>
 </DecServCfg>

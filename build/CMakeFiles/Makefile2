@@ -56,13 +56,48 @@ CMAKE_SOURCE_DIR = /Users/tll007/dev/dec
 CMAKE_BINARY_DIR = /Users/tll007/dev/dec/build
 
 #=============================================================================
+# Target rules for target CMakeFiles/_reducer.dir
+
+# All Build rule for target.
+CMakeFiles/_reducer.dir/all: CMakeFiles/dec.dir/all
+	$(MAKE) -f CMakeFiles/_reducer.dir/build.make CMakeFiles/_reducer.dir/depend
+	$(MAKE) -f CMakeFiles/_reducer.dir/build.make CMakeFiles/_reducer.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/dec/build/CMakeFiles  1
+	@echo "Built target _reducer"
+.PHONY : CMakeFiles/_reducer.dir/all
+
+# Include target in all.
+all: CMakeFiles/_reducer.dir/all
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/_reducer.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tll007/dev/dec/build/CMakeFiles 5
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/_reducer.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tll007/dev/dec/build/CMakeFiles 0
+.PHONY : CMakeFiles/_reducer.dir/rule
+
+# Convenience name for target.
+_reducer: CMakeFiles/_reducer.dir/rule
+.PHONY : _reducer
+
+# clean rule for target.
+CMakeFiles/_reducer.dir/clean:
+	$(MAKE) -f CMakeFiles/_reducer.dir/build.make CMakeFiles/_reducer.dir/clean
+.PHONY : CMakeFiles/_reducer.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/_reducer.dir/clean
+.PHONY : clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/_serv.dir
 
 # All Build rule for target.
 CMakeFiles/_serv.dir/all: CMakeFiles/dec.dir/all
 	$(MAKE) -f CMakeFiles/_serv.dir/build.make CMakeFiles/_serv.dir/depend
 	$(MAKE) -f CMakeFiles/_serv.dir/build.make CMakeFiles/_serv.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/dec/build/CMakeFiles  1
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/dec/build/CMakeFiles  2
 	@echo "Built target _serv"
 .PHONY : CMakeFiles/_serv.dir/all
 
@@ -72,7 +107,7 @@ all: CMakeFiles/_serv.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/_serv.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tll007/dev/dec/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tll007/dev/dec/build/CMakeFiles 5
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/_serv.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tll007/dev/dec/build/CMakeFiles 0
 .PHONY : CMakeFiles/_serv.dir/rule
@@ -97,7 +132,7 @@ clean: CMakeFiles/_serv.dir/clean
 CMakeFiles/_worker.dir/all: CMakeFiles/dec.dir/all
 	$(MAKE) -f CMakeFiles/_worker.dir/build.make CMakeFiles/_worker.dir/depend
 	$(MAKE) -f CMakeFiles/_worker.dir/build.make CMakeFiles/_worker.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/dec/build/CMakeFiles  2
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/dec/build/CMakeFiles  3
 	@echo "Built target _worker"
 .PHONY : CMakeFiles/_worker.dir/all
 
@@ -107,7 +142,7 @@ all: CMakeFiles/_worker.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/_worker.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tll007/dev/dec/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tll007/dev/dec/build/CMakeFiles 5
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/_worker.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tll007/dev/dec/build/CMakeFiles 0
 .PHONY : CMakeFiles/_worker.dir/rule
@@ -132,7 +167,7 @@ clean: CMakeFiles/_worker.dir/clean
 CMakeFiles/dec.dir/all:
 	$(MAKE) -f CMakeFiles/dec.dir/build.make CMakeFiles/dec.dir/depend
 	$(MAKE) -f CMakeFiles/dec.dir/build.make CMakeFiles/dec.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/dec/build/CMakeFiles  3 4 5
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/dec/build/CMakeFiles  4 5 6 7
 	@echo "Built target dec"
 .PHONY : CMakeFiles/dec.dir/all
 
@@ -142,7 +177,7 @@ all: CMakeFiles/dec.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/dec.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tll007/dev/dec/build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tll007/dev/dec/build/CMakeFiles 4
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/dec.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tll007/dev/dec/build/CMakeFiles 0
 .PHONY : CMakeFiles/dec.dir/rule

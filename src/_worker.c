@@ -44,7 +44,7 @@ int dec_worker_cfg_check(struct _dec_worker_cfg cfg){
 
 void dec_worker_cfg_dispaly(struct _dec_worker_cfg cfg){
   printf("\n\nDEC WORKER RUNNING CONFIGURE\n-------------------------------------------\n");
-  printf("task_root_dir\t\t%s\nexec_root_dir\t\t%s\nserver_port\t\t%s\nserver_ip\t\t%s\napp_name\t\t%s\nheartbeat_internal\t%d\n",
+  printf("task_root_dir\t\t\t%s\nexec_root_dir\t\t\t%s\nserver_port\t\t\t%s\nserver_ip\t\t\t%s\napp_name\t\t\t%s\nheartbeat_internal\t\t%d\n",
 	 cfg.task_root_dir,
 	 cfg.exec_root_dir,
 	 cfg.server_port,

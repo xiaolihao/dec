@@ -121,11 +121,35 @@ CMakeFiles/dec.dir/src/g_dec_worker.c.o.provides: CMakeFiles/dec.dir/src/g_dec_w
 
 CMakeFiles/dec.dir/src/g_dec_worker.c.o.provides.build: CMakeFiles/dec.dir/src/g_dec_worker.c.o
 
+CMakeFiles/dec.dir/src/g_dec_reducer.c.o: CMakeFiles/dec.dir/flags.make
+CMakeFiles/dec.dir/src/g_dec_reducer.c.o: ../src/g_dec_reducer.c
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/dec/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/dec.dir/src/g_dec_reducer.c.o"
+	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/dec.dir/src/g_dec_reducer.c.o   -c /Users/tll007/dev/dec/src/g_dec_reducer.c
+
+CMakeFiles/dec.dir/src/g_dec_reducer.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/dec.dir/src/g_dec_reducer.c.i"
+	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -E /Users/tll007/dev/dec/src/g_dec_reducer.c > CMakeFiles/dec.dir/src/g_dec_reducer.c.i
+
+CMakeFiles/dec.dir/src/g_dec_reducer.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/dec.dir/src/g_dec_reducer.c.s"
+	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -S /Users/tll007/dev/dec/src/g_dec_reducer.c -o CMakeFiles/dec.dir/src/g_dec_reducer.c.s
+
+CMakeFiles/dec.dir/src/g_dec_reducer.c.o.requires:
+.PHONY : CMakeFiles/dec.dir/src/g_dec_reducer.c.o.requires
+
+CMakeFiles/dec.dir/src/g_dec_reducer.c.o.provides: CMakeFiles/dec.dir/src/g_dec_reducer.c.o.requires
+	$(MAKE) -f CMakeFiles/dec.dir/build.make CMakeFiles/dec.dir/src/g_dec_reducer.c.o.provides.build
+.PHONY : CMakeFiles/dec.dir/src/g_dec_reducer.c.o.provides
+
+CMakeFiles/dec.dir/src/g_dec_reducer.c.o.provides.build: CMakeFiles/dec.dir/src/g_dec_reducer.c.o
+
 # Object files for target dec
 dec_OBJECTS = \
 "CMakeFiles/dec.dir/src/g_dec_serv.c.o" \
 "CMakeFiles/dec.dir/src/g_dec_util.c.o" \
-"CMakeFiles/dec.dir/src/g_dec_worker.c.o"
+"CMakeFiles/dec.dir/src/g_dec_worker.c.o" \
+"CMakeFiles/dec.dir/src/g_dec_reducer.c.o"
 
 # External object files for target dec
 dec_EXTERNAL_OBJECTS =
@@ -133,6 +157,7 @@ dec_EXTERNAL_OBJECTS =
 libdec.a: CMakeFiles/dec.dir/src/g_dec_serv.c.o
 libdec.a: CMakeFiles/dec.dir/src/g_dec_util.c.o
 libdec.a: CMakeFiles/dec.dir/src/g_dec_worker.c.o
+libdec.a: CMakeFiles/dec.dir/src/g_dec_reducer.c.o
 libdec.a: CMakeFiles/dec.dir/build.make
 libdec.a: CMakeFiles/dec.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking C static library libdec.a"
@@ -146,6 +171,7 @@ CMakeFiles/dec.dir/build: libdec.a
 CMakeFiles/dec.dir/requires: CMakeFiles/dec.dir/src/g_dec_serv.c.o.requires
 CMakeFiles/dec.dir/requires: CMakeFiles/dec.dir/src/g_dec_util.c.o.requires
 CMakeFiles/dec.dir/requires: CMakeFiles/dec.dir/src/g_dec_worker.c.o.requires
+CMakeFiles/dec.dir/requires: CMakeFiles/dec.dir/src/g_dec_reducer.c.o.requires
 .PHONY : CMakeFiles/dec.dir/requires
 
 CMakeFiles/dec.dir/clean:

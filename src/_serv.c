@@ -40,7 +40,7 @@ int dec_server_cfg_check(struct _dec_server_cfg cfg){
 
 void dec_server_cfg_dispaly(struct _dec_server_cfg cfg){
   printf("\n\nDEC SERVER RUNNING CONFIGURE\n-------------------------------------------\n");
-  printf("task_root_dir\t\t%s\nexec_root_dir\t\t%s\nlisten_port\t\t%s\nconn_check_internal\t%d\nconn_max_timeout\t%d\n",
+  printf("task_root_dir\t\t\t%s\nexec_root_dir\t\t\t%s\nlisten_port\t\t\t%s\nconn_check_internal\t\t%d\nconn_max_timeout\t\t%d\n",
 	 cfg.task_root_dir,
 	 cfg.exec_root_dir,
 	 cfg.listen_port,

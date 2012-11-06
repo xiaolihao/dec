@@ -16,8 +16,9 @@ struct bufferevent;
 struct _GQueue;
 struct _GHashTable;
 struct _GString;
+struct _GPtrArray;
 
-
+/* one reducer can configure more than one different result reduce program */
 struct _dec_reducer_connection{
   
   int fd;
@@ -28,7 +29,12 @@ struct _dec_reducer_connection{
 
   struct _GString *ip;
   
-  int32_t port;
+  struct _GString *port;
+ 
+  struct _GPtrArray *app_name_array;
+  int32_t count;
+
+  DEC_SERVER server;
 };
 
 /* worker node information triggered by event */
@@ -87,5 +93,10 @@ struct _dec_server{
 
   int connection_check_internal;
   int connection_max_timeout;
-  
+
+  /* map from file description to connection of reducer */
+  struct _GHashTable *fd2reducer;
+
+  /* map from application name to queue of reducer connection */
+  struct _GHashTable *app2reducer_queue;
 };
