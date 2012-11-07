@@ -1,0 +1,11 @@
+<DecReducerCfg>
+	<MyIP>127.0.0.2</MyIP>
+	<MyPort>9006</MyPort>
+	<ServerPort>9000</ServerPort>
+	<ServerIP>127.0.0.1</ServerIP>
+	<App>
+	  <AppName>app1</AppName>
+	  <AppName>app2</AppName>
+	</App>
+	<HeartbeatInternal>10</HeartbeatInternal>
+</DecReducerCfg>

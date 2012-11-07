@@ -18,13 +18,13 @@ struct _dec_server_cfg{
 
 };
 
-void dec_server_cfg_init(struct _dec_server_cfg cfg){
-  memset(cfg.task_root_dir, 0, 128);
-  memset(cfg.exec_root_dir, 0, 128);
-  memset(cfg.listen_port, 0, 128);
+void dec_server_cfg_init(struct _dec_server_cfg *cfg){
+  memset(cfg->task_root_dir, 0, 128);
+  memset(cfg->exec_root_dir, 0, 128);
+  memset(cfg->listen_port, 0, 128);
   
-  cfg.connection_check_internal=10;
-  cfg.connection_max_timeout=30;
+  cfg->connection_check_internal=10;
+  cfg->connection_max_timeout=30;
 }
 
 
@@ -64,14 +64,14 @@ struct _dec_worker_cfg{
   int heartbeat_internal;
 };
 
-void dec_worker_cfg_init(struct _dec_worker_cfg cfg){
-  memset(cfg.task_root_dir, 0, 128);
-  memset(cfg.exec_root_dir, 0, 128);
-  memset(cfg.server_port, 0, 128);
-  memset(cfg.server_ip, 0, 128);
-  memset(cfg.app_name, 0, 128);
+void dec_worker_cfg_init(struct _dec_worker_cfg *cfg){
+  memset(cfg->task_root_dir, 0, 128);
+  memset(cfg->exec_root_dir, 0, 128);
+  memset(cfg->server_port, 0, 128);
+  memset(cfg->server_ip, 0, 128);
+  memset(cfg->app_name, 0, 128);
 
-  cfg.heartbeat_internal=10;
+  cfg->heartbeat_internal=10;
 }
 
 
@@ -80,7 +80,7 @@ int dec_worker_cfg_check(struct _dec_worker_cfg cfg){
      strlen(cfg.exec_root_dir) == 0 ||
      strlen(cfg.server_port) == 0 ||
      strlen(cfg.server_ip) == 0 ||
-      strlen(cfg.app_name) == 0)
+     strlen(cfg.app_name) == 0)
     return -1;
   else
     return 0;
@@ -99,6 +99,59 @@ void dec_worker_cfg_dispaly(struct _dec_worker_cfg cfg){
   printf("-------------------------------------------\n\n");
 }
 
+struct _dec_reducer_cfg{
+  char server_ip[128];
+  char server_port[128];
+
+  char my_ip[128];
+  char my_port[128];
+
+  char **apps;
+  int32_t count;
+  int32_t heartbeat_internal;
+};
+
+void dec_reducer_cfg_dispaly(struct _dec_reducer_cfg cfg){
+  int idx=0;
+  printf("\n\nDEC REDUCER RUNNING CONFIGURE\n-------------------------------------------\n");
+  printf("my_ip\t\t\t%s\nmy_port\t\t\t%s\nserver_port\t\t\t%s\nserver_ip\t\t\t%s\nheartbeat_internal\t\t%d\n",
+	 cfg.my_ip,
+	 cfg.my_port,
+	 cfg.server_port,
+	 cfg.server_ip,
+	 cfg.heartbeat_internal);
+
+  printf("apps\t\t");
+  for(; idx<cfg.count; ++idx){
+    printf("%s", cfg.apps[idx]);
+    if(idx < cfg.count-1)
+      printf(",");
+  }
+  printf("\n");
+  printf("-------------------------------------------\n\n");
+}
+
+void dec_reducer_cfg_init(struct _dec_reducer_cfg *cfg){
+  memset(cfg->my_ip, 0, 128);
+  memset(cfg->my_port, 0, 128);
+  memset(cfg->server_port, 0, 128);
+  memset(cfg->server_ip, 0, 128);
+
+  cfg->heartbeat_internal=10;
+
+  cfg->count=0;
+  cfg->apps = (char**)malloc(20*sizeof(char*));
+}
+
+int dec_reducer_cfg_check(struct _dec_reducer_cfg cfg){
+  if(strlen(cfg.my_ip) == 0 ||
+     strlen(cfg.my_port) == 0 ||
+     strlen(cfg.server_port) == 0 ||
+     strlen(cfg.server_ip) == 0)
+    return -1;
+  else
+    return 0;
+}
 
 
 void usage(){
@@ -182,12 +235,62 @@ static void worker_text(GMarkupParseContext *context,
 
 }
 
+
+static void reducer_text(GMarkupParseContext *context, 
+			 const gchar *text, 
+			 gsize text_len, 
+			 gpointer user_data, 
+			 GError **error ){
+
+  struct _dec_reducer_cfg *cfg=(struct _dec_reducer_cfg*)user_data;
+  char *element=NULL;
+  static int idx=0;
+
+  element = g_markup_parse_context_get_element(context);
+  
+  if(strcmp(element, "MyIP") == 0){
+    strncpy(cfg->my_ip, text, text_len);
+    cfg->my_ip[text_len]='\0';
+  }
+
+  else if(strcmp(element, "MyPort") == 0){
+    strncpy(cfg->my_port, text, text_len);
+    cfg->my_port[text_len]='\0';
+  }
+
+  else if(strcmp(element, "ServerPort") == 0){
+    strncpy(cfg->server_port, text, text_len);
+    cfg->server_port[text_len]='\0';
+  }
+
+  else if(strcmp(element, "ServerIP") == 0){
+    strncpy(cfg->server_ip, text, text_len);
+    cfg->server_ip[text_len]='\0';
+  }
+
+  else if(strcmp(element, "AppName") == 0){
+    cfg->apps[idx] = (char*)malloc(128);
+    
+    strncpy(cfg->apps[idx], text, text_len);
+    cfg->apps[idx][text_len]='\0';
+    ++idx;
+    cfg->count = idx;
+  }
+
+  else if(strcmp(element, "HeartbeatInternal") == 0 && text_len > 0)
+    cfg->heartbeat_internal = atoi(text);
+
+}
+
 int main(int argc, char *argv[]){
 
     DEC_SERVER server=NULL;
     DEC_WORKER worker=NULL;
+    DEC_REDUCER reducer=NULL;
     struct _dec_server_cfg server_cfg;
     struct _dec_worker_cfg worker_cfg;
+    struct _dec_reducer_cfg reducer_cfg;
+
     GMarkupParseContext *context;
     char *buf=NULL;
     int32_t len;
@@ -209,18 +312,30 @@ int main(int argc, char *argv[]){
       . error=NULL
     }; 
 
+     GMarkupParser reducer_parser={ 
+      . start_element=NULL, 
+      . end_element=NULL, 
+      . text=reducer_text, 
+      . passthrough=NULL , 
+      . error=NULL
+    }; 
+
     if(argc != 4){
       usage();
       return 0;
     }
 
     if(strcmp(argv[1],"-s") == 0){
-      dec_server_cfg_init(server_cfg);
+      dec_server_cfg_init(&server_cfg);
       flag = 1;
     }
     else if(strcmp(argv[1],"-w") == 0){
-       dec_worker_cfg_init(worker_cfg);
+       dec_worker_cfg_init(&worker_cfg);
        flag = 2;
+    }
+    else if(strcmp(argv[1],"-r") == 0){
+      dec_reducer_cfg_init(&reducer_cfg);
+      flag = 3;
     }
     else{
       usage();
@@ -239,13 +354,18 @@ int main(int argc, char *argv[]){
       context = g_markup_parse_context_new(&server_parser, 0, &server_cfg, NULL); 
     else if(flag == 2)
       context = g_markup_parse_context_new(&worker_parser, 0, &worker_cfg, NULL); 
+    else if(flag == 3)
+      context = g_markup_parse_context_new(&reducer_parser, 0, &reducer_cfg, NULL); 
+
     if(g_markup_parse_context_parse(context, buf, len, NULL) == FALSE){
       printf("\nparse cfg file: %s fail\n\n", argv[3]);
       g_markup_parse_context_free(context);
       return 0;
     } 
 
-    if(flag == 1 ? (dec_server_cfg_check(server_cfg) != 0):(dec_worker_cfg_check(worker_cfg) != 0)){
+    if(flag == 1 ? (dec_server_cfg_check(server_cfg) != 0):
+       (flag == 2 ? (dec_worker_cfg_check(worker_cfg) != 0):
+	(dec_reducer_cfg_check(reducer_cfg) != 0))){
       printf("\ncfg file: %s is not correct\n\n", argv[3]);
       g_markup_parse_context_free(context);
       return 0;
@@ -284,6 +404,23 @@ int main(int argc, char *argv[]){
 	 return 1;
        }
        g_dec_worker_start(worker);
+    }
+
+    else if(flag == 3){
+      printf("DEC REDUCER IS STARTING...\n");
+      reducer = g_dec_reducer_init(reducer_cfg.server_ip,
+				   reducer_cfg.server_port,
+				   reducer_cfg.apps,
+				   reducer_cfg.count,
+				   reducer_cfg.my_ip,
+				   reducer_cfg.my_port,
+				   reducer_cfg.heartbeat_internal);
+      if(!reducer){
+	 printf("dec reducer init error\n");
+	 return 1;
+      }
+
+      g_dec_reducer_start(reducer);
     }
 
     g_markup_parse_context_free(context);
