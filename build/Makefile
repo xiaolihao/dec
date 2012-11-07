@@ -115,19 +115,6 @@ _dec/fast:
 .PHONY : _dec/fast
 
 #=============================================================================
-# Target rules for targets named _reducer
-
-# Build rule for target.
-_reducer: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 _reducer
-.PHONY : _reducer
-
-# fast build rule for target.
-_reducer/fast:
-	$(MAKE) -f CMakeFiles/_reducer.dir/build.make CMakeFiles/_reducer.dir/build
-.PHONY : _reducer/fast
-
-#=============================================================================
 # Target rules for targets named dec
 
 # Build rule for target.
@@ -163,30 +150,6 @@ src/_dec.s: src/_dec.c.s
 src/_dec.c.s:
 	$(MAKE) -f CMakeFiles/_dec.dir/build.make CMakeFiles/_dec.dir/src/_dec.c.s
 .PHONY : src/_dec.c.s
-
-src/_reducer.o: src/_reducer.c.o
-.PHONY : src/_reducer.o
-
-# target to build an object file
-src/_reducer.c.o:
-	$(MAKE) -f CMakeFiles/_reducer.dir/build.make CMakeFiles/_reducer.dir/src/_reducer.c.o
-.PHONY : src/_reducer.c.o
-
-src/_reducer.i: src/_reducer.c.i
-.PHONY : src/_reducer.i
-
-# target to preprocess a source file
-src/_reducer.c.i:
-	$(MAKE) -f CMakeFiles/_reducer.dir/build.make CMakeFiles/_reducer.dir/src/_reducer.c.i
-.PHONY : src/_reducer.c.i
-
-src/_reducer.s: src/_reducer.c.s
-.PHONY : src/_reducer.s
-
-# target to generate assembly for a file
-src/_reducer.c.s:
-	$(MAKE) -f CMakeFiles/_reducer.dir/build.make CMakeFiles/_reducer.dir/src/_reducer.c.s
-.PHONY : src/_reducer.c.s
 
 src/g_dec_reducer.o: src/g_dec_reducer.c.o
 .PHONY : src/g_dec_reducer.o
@@ -291,16 +254,12 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... _dec"
-	@echo "... _reducer"
 	@echo "... dec"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... src/_dec.o"
 	@echo "... src/_dec.i"
 	@echo "... src/_dec.s"
-	@echo "... src/_reducer.o"
-	@echo "... src/_reducer.i"
-	@echo "... src/_reducer.s"
 	@echo "... src/g_dec_reducer.o"
 	@echo "... src/g_dec_reducer.i"
 	@echo "... src/g_dec_reducer.s"

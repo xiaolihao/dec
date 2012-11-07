@@ -1,6 +1,6 @@
 <DecServCfg>
-	<TaskRootDir>./task</TaskRootDir>
-	<ExecRootDir>./exe</ExecRootDir>
+	<TaskRootDir>./task_on_server</TaskRootDir>
+	<ExecRootDir>./exe_on_server</ExecRootDir>
 	<ListenPort>9000</ListenPort>
 	<ConnCheckInternal>20</ConnCheckInternal>
 	<ConnMaxTimeout>40</ConnMaxTimeout>
