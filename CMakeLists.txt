@@ -21,11 +21,8 @@ SET(src_list
 ADD_LIBRARY(dec ${src_list})
 TARGET_LINK_LIBRARIES(dec  event glib-2.0.0)
 
-ADD_EXECUTABLE(_serv src/_serv.c)
-TARGET_LINK_LIBRARIES(_serv dec event glib-2.0.0)
-
-ADD_EXECUTABLE(_worker src/_worker.c)
-TARGET_LINK_LIBRARIES(_worker dec event glib-2.0.0)
+ADD_EXECUTABLE(_dec src/_dec.c)
+TARGET_LINK_LIBRARIES(_dec dec event glib-2.0.0)
 
 ADD_EXECUTABLE(_reducer src/_reducer.c)
 TARGET_LINK_LIBRARIES(_reducer dec event glib-2.0.0)

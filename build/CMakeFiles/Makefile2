@@ -56,13 +56,48 @@ CMAKE_SOURCE_DIR = /Users/tll007/dev/dec
 CMAKE_BINARY_DIR = /Users/tll007/dev/dec/build
 
 #=============================================================================
+# Target rules for target CMakeFiles/_dec.dir
+
+# All Build rule for target.
+CMakeFiles/_dec.dir/all: CMakeFiles/dec.dir/all
+	$(MAKE) -f CMakeFiles/_dec.dir/build.make CMakeFiles/_dec.dir/depend
+	$(MAKE) -f CMakeFiles/_dec.dir/build.make CMakeFiles/_dec.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/dec/build/CMakeFiles  1
+	@echo "Built target _dec"
+.PHONY : CMakeFiles/_dec.dir/all
+
+# Include target in all.
+all: CMakeFiles/_dec.dir/all
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/_dec.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tll007/dev/dec/build/CMakeFiles 5
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/_dec.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tll007/dev/dec/build/CMakeFiles 0
+.PHONY : CMakeFiles/_dec.dir/rule
+
+# Convenience name for target.
+_dec: CMakeFiles/_dec.dir/rule
+.PHONY : _dec
+
+# clean rule for target.
+CMakeFiles/_dec.dir/clean:
+	$(MAKE) -f CMakeFiles/_dec.dir/build.make CMakeFiles/_dec.dir/clean
+.PHONY : CMakeFiles/_dec.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/_dec.dir/clean
+.PHONY : clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/_reducer.dir
 
 # All Build rule for target.
 CMakeFiles/_reducer.dir/all: CMakeFiles/dec.dir/all
 	$(MAKE) -f CMakeFiles/_reducer.dir/build.make CMakeFiles/_reducer.dir/depend
 	$(MAKE) -f CMakeFiles/_reducer.dir/build.make CMakeFiles/_reducer.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/dec/build/CMakeFiles  1
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/dec/build/CMakeFiles  2
 	@echo "Built target _reducer"
 .PHONY : CMakeFiles/_reducer.dir/all
 
@@ -91,83 +126,13 @@ clean: CMakeFiles/_reducer.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/_serv.dir
-
-# All Build rule for target.
-CMakeFiles/_serv.dir/all: CMakeFiles/dec.dir/all
-	$(MAKE) -f CMakeFiles/_serv.dir/build.make CMakeFiles/_serv.dir/depend
-	$(MAKE) -f CMakeFiles/_serv.dir/build.make CMakeFiles/_serv.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/dec/build/CMakeFiles  2
-	@echo "Built target _serv"
-.PHONY : CMakeFiles/_serv.dir/all
-
-# Include target in all.
-all: CMakeFiles/_serv.dir/all
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/_serv.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tll007/dev/dec/build/CMakeFiles 5
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/_serv.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tll007/dev/dec/build/CMakeFiles 0
-.PHONY : CMakeFiles/_serv.dir/rule
-
-# Convenience name for target.
-_serv: CMakeFiles/_serv.dir/rule
-.PHONY : _serv
-
-# clean rule for target.
-CMakeFiles/_serv.dir/clean:
-	$(MAKE) -f CMakeFiles/_serv.dir/build.make CMakeFiles/_serv.dir/clean
-.PHONY : CMakeFiles/_serv.dir/clean
-
-# clean rule for target.
-clean: CMakeFiles/_serv.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/_worker.dir
-
-# All Build rule for target.
-CMakeFiles/_worker.dir/all: CMakeFiles/dec.dir/all
-	$(MAKE) -f CMakeFiles/_worker.dir/build.make CMakeFiles/_worker.dir/depend
-	$(MAKE) -f CMakeFiles/_worker.dir/build.make CMakeFiles/_worker.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/dec/build/CMakeFiles  3
-	@echo "Built target _worker"
-.PHONY : CMakeFiles/_worker.dir/all
-
-# Include target in all.
-all: CMakeFiles/_worker.dir/all
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/_worker.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tll007/dev/dec/build/CMakeFiles 5
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/_worker.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tll007/dev/dec/build/CMakeFiles 0
-.PHONY : CMakeFiles/_worker.dir/rule
-
-# Convenience name for target.
-_worker: CMakeFiles/_worker.dir/rule
-.PHONY : _worker
-
-# clean rule for target.
-CMakeFiles/_worker.dir/clean:
-	$(MAKE) -f CMakeFiles/_worker.dir/build.make CMakeFiles/_worker.dir/clean
-.PHONY : CMakeFiles/_worker.dir/clean
-
-# clean rule for target.
-clean: CMakeFiles/_worker.dir/clean
-.PHONY : clean
-
-#=============================================================================
 # Target rules for target CMakeFiles/dec.dir
 
 # All Build rule for target.
 CMakeFiles/dec.dir/all:
 	$(MAKE) -f CMakeFiles/dec.dir/build.make CMakeFiles/dec.dir/depend
 	$(MAKE) -f CMakeFiles/dec.dir/build.make CMakeFiles/dec.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/dec/build/CMakeFiles  4 5 6 7
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/dec/build/CMakeFiles  3 4 5 6
 	@echo "Built target dec"
 .PHONY : CMakeFiles/dec.dir/all
 

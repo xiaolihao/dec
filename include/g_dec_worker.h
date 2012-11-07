@@ -50,4 +50,9 @@ struct _dec_worker{
   struct event *task_ev;
 
   int32_t heartbeat_internal;
+
+  /* current reducer information */
+  struct _GString *reducer_ip;
+
+  struct _GString *reducer_port;
 };

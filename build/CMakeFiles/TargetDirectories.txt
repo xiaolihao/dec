@@ -1,4 +1,3 @@
+/Users/tll007/dev/dec/build/CMakeFiles/_dec.dir
 /Users/tll007/dev/dec/build/CMakeFiles/_reducer.dir
-/Users/tll007/dev/dec/build/CMakeFiles/_serv.dir
-/Users/tll007/dev/dec/build/CMakeFiles/_worker.dir
 /Users/tll007/dev/dec/build/CMakeFiles/dec.dir

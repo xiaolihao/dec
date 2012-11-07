@@ -21,6 +21,7 @@ struct _GPtrArray;
 /* one reducer can configure more than one different result reduce program */
 struct _dec_reducer_connection{
   
+  /* ALSO, send to worker as reducer token */
   int fd;
   
   struct bufferevent *bev;

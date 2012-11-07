@@ -58,6 +58,9 @@ int dec_worker_net_message_process(DEC_WORKER worker,
   char task_path[1024], exe_path[1024];
   pid_t pid=-1;
   char msg[1024];
+  char ip[128], port[128];
+  unsigned char len=0;
+  int32_t offset=0;
 
   fd = bufferevent_getfd(bev);
 
@@ -99,10 +102,27 @@ int dec_worker_net_message_process(DEC_WORKER worker,
     if(type == COM_W_TASK){
 
       worker->state=WORKER_STATE_BUSY;
+      
+      /* get reducer ip */
+      len=*(char*)data;
+      offset++;
+
+      memcpy(ip, (char*)data+offset, len);
+      ip[len]='\0';
+      offset += len;
+
+      /* port */
+      len=*((char*)data+offset);
+      offset++;
+
+      memcpy(port, (char*)data+offset, len);
+      port[len]='\0';
+      offset += len;
+      printf("ip:%s,port:%s\n", ip, port);
 
       /* save file to task dir */
       sprintf(task_path, "%s/%s", worker->task_root_dir->str, worker->app_name->str);
-      util_save_file(data, size, task_path, NULL);
+      util_save_file((char*)data+offset, size-offset, task_path, NULL);
 
       pid=fork();
       if(pid > 0)
@@ -129,6 +149,14 @@ int dec_worker_net_message_process(DEC_WORKER worker,
       free(buf);
     }
     
+    else if(type == COM_S_ERROR){
+      strncpy(msg, data, size);
+      msg[size]='\0';
+      printf("server error: %s\n\n", msg);
+
+      g_dec_worker_free(worker);
+      exit(-1);
+    }
     break;
 
   default:
@@ -176,15 +204,14 @@ static void dec_worker_net_message_read_callback(struct bufferevent *bev,
 	return;
       }
     }
-
-    /* process the command */
-    if(dec_worker_net_message_process(worker, bev, type, src_buffer, size) != G_OK){
-       free(src_buffer);
-       return;
-    }
-    
-    free(src_buffer);
   
+     /* process the command */
+    if(dec_worker_net_message_process(worker, bev, type, src_buffer, size) != G_OK){
+      free(src_buffer);
+      return;
+    }
+    free(src_buffer);
+    
     src = bufferevent_get_input(bev);
     len = evbuffer_get_length(src);
   }
@@ -309,12 +336,19 @@ DEC_WORKER g_dec_worker_init(char *serv_ip,
 
   worker->task_root_dir = g_string_new("");
   worker->exe_root_dir  = g_string_new("");
-
-  if(!worker->task_root_dir||!worker->exe_root_dir)
+  worker->reducer_ip = g_string_new("");
+  worker->reducer_port = g_string_new("");
+  worker->serv_ip = g_string_new("");
+  if(!worker->task_root_dir||
+     !worker->exe_root_dir ||
+     !worker->reducer_ip   ||
+     !worker->reducer_port ||
+     !worker->serv_ip)
     return NULL;
 
   g_string_append_len(worker->task_root_dir, task_root, strlen(task_root));
   g_string_append_len(worker->exe_root_dir, exec_root, strlen(exec_root));
+  g_string_append_len(worker->serv_ip, serv_ip, strlen(serv_ip));
 
   /* task trigger */
   worker->task_ev=evsignal_new(worker->base, SIGCHLD, dec_worker_task_check_cb, worker);
@@ -335,6 +369,7 @@ void g_dec_worker_start(DEC_WORKER worker){
 
 void g_dec_worker_free(DEC_WORKER worker){
   event_base_free(worker->base);  
+  g_string_free(worker->serv_ip, TRUE);
   g_string_free(worker->task_root_dir, TRUE);
   g_string_free(worker->exe_root_dir,  TRUE);
   g_string_free(worker->app_name, TRUE);

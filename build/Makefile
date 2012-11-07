@@ -102,6 +102,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named _dec
+
+# Build rule for target.
+_dec: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _dec
+.PHONY : _dec
+
+# fast build rule for target.
+_dec/fast:
+	$(MAKE) -f CMakeFiles/_dec.dir/build.make CMakeFiles/_dec.dir/build
+.PHONY : _dec/fast
+
+#=============================================================================
 # Target rules for targets named _reducer
 
 # Build rule for target.
@@ -115,32 +128,6 @@ _reducer/fast:
 .PHONY : _reducer/fast
 
 #=============================================================================
-# Target rules for targets named _serv
-
-# Build rule for target.
-_serv: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 _serv
-.PHONY : _serv
-
-# fast build rule for target.
-_serv/fast:
-	$(MAKE) -f CMakeFiles/_serv.dir/build.make CMakeFiles/_serv.dir/build
-.PHONY : _serv/fast
-
-#=============================================================================
-# Target rules for targets named _worker
-
-# Build rule for target.
-_worker: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 _worker
-.PHONY : _worker
-
-# fast build rule for target.
-_worker/fast:
-	$(MAKE) -f CMakeFiles/_worker.dir/build.make CMakeFiles/_worker.dir/build
-.PHONY : _worker/fast
-
-#=============================================================================
 # Target rules for targets named dec
 
 # Build rule for target.
@@ -152,6 +139,30 @@ dec: cmake_check_build_system
 dec/fast:
 	$(MAKE) -f CMakeFiles/dec.dir/build.make CMakeFiles/dec.dir/build
 .PHONY : dec/fast
+
+src/_dec.o: src/_dec.c.o
+.PHONY : src/_dec.o
+
+# target to build an object file
+src/_dec.c.o:
+	$(MAKE) -f CMakeFiles/_dec.dir/build.make CMakeFiles/_dec.dir/src/_dec.c.o
+.PHONY : src/_dec.c.o
+
+src/_dec.i: src/_dec.c.i
+.PHONY : src/_dec.i
+
+# target to preprocess a source file
+src/_dec.c.i:
+	$(MAKE) -f CMakeFiles/_dec.dir/build.make CMakeFiles/_dec.dir/src/_dec.c.i
+.PHONY : src/_dec.c.i
+
+src/_dec.s: src/_dec.c.s
+.PHONY : src/_dec.s
+
+# target to generate assembly for a file
+src/_dec.c.s:
+	$(MAKE) -f CMakeFiles/_dec.dir/build.make CMakeFiles/_dec.dir/src/_dec.c.s
+.PHONY : src/_dec.c.s
 
 src/_reducer.o: src/_reducer.c.o
 .PHONY : src/_reducer.o
@@ -176,54 +187,6 @@ src/_reducer.s: src/_reducer.c.s
 src/_reducer.c.s:
 	$(MAKE) -f CMakeFiles/_reducer.dir/build.make CMakeFiles/_reducer.dir/src/_reducer.c.s
 .PHONY : src/_reducer.c.s
-
-src/_serv.o: src/_serv.c.o
-.PHONY : src/_serv.o
-
-# target to build an object file
-src/_serv.c.o:
-	$(MAKE) -f CMakeFiles/_serv.dir/build.make CMakeFiles/_serv.dir/src/_serv.c.o
-.PHONY : src/_serv.c.o
-
-src/_serv.i: src/_serv.c.i
-.PHONY : src/_serv.i
-
-# target to preprocess a source file
-src/_serv.c.i:
-	$(MAKE) -f CMakeFiles/_serv.dir/build.make CMakeFiles/_serv.dir/src/_serv.c.i
-.PHONY : src/_serv.c.i
-
-src/_serv.s: src/_serv.c.s
-.PHONY : src/_serv.s
-
-# target to generate assembly for a file
-src/_serv.c.s:
-	$(MAKE) -f CMakeFiles/_serv.dir/build.make CMakeFiles/_serv.dir/src/_serv.c.s
-.PHONY : src/_serv.c.s
-
-src/_worker.o: src/_worker.c.o
-.PHONY : src/_worker.o
-
-# target to build an object file
-src/_worker.c.o:
-	$(MAKE) -f CMakeFiles/_worker.dir/build.make CMakeFiles/_worker.dir/src/_worker.c.o
-.PHONY : src/_worker.c.o
-
-src/_worker.i: src/_worker.c.i
-.PHONY : src/_worker.i
-
-# target to preprocess a source file
-src/_worker.c.i:
-	$(MAKE) -f CMakeFiles/_worker.dir/build.make CMakeFiles/_worker.dir/src/_worker.c.i
-.PHONY : src/_worker.c.i
-
-src/_worker.s: src/_worker.c.s
-.PHONY : src/_worker.s
-
-# target to generate assembly for a file
-src/_worker.c.s:
-	$(MAKE) -f CMakeFiles/_worker.dir/build.make CMakeFiles/_worker.dir/src/_worker.c.s
-.PHONY : src/_worker.c.s
 
 src/g_dec_reducer.o: src/g_dec_reducer.c.o
 .PHONY : src/g_dec_reducer.o
@@ -327,21 +290,17 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... _dec"
 	@echo "... _reducer"
-	@echo "... _serv"
-	@echo "... _worker"
 	@echo "... dec"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... src/_dec.o"
+	@echo "... src/_dec.i"
+	@echo "... src/_dec.s"
 	@echo "... src/_reducer.o"
 	@echo "... src/_reducer.i"
 	@echo "... src/_reducer.s"
-	@echo "... src/_serv.o"
-	@echo "... src/_serv.i"
-	@echo "... src/_serv.s"
-	@echo "... src/_worker.o"
-	@echo "... src/_worker.i"
-	@echo "... src/_worker.s"
 	@echo "... src/g_dec_reducer.o"
 	@echo "... src/g_dec_reducer.i"
 	@echo "... src/g_dec_reducer.s"

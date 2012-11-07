@@ -235,13 +235,31 @@ static void dec_server_state_check_cb(evutil_socket_t fd,
   evtimer_add(server->st_ev, &server->st_tv);
 }
 
+
+DEC_REDUCER_CONNECTION dec_server_high_priority_reducer_get(DEC_WORKER_CONNECTION worker_conn){
+  DEC_REDUCER_CONNECTION reducer_conn=NULL;
+  struct _GQueue *queue=NULL;
+  int idx=0, len=0;
+
+  queue = g_hash_table_lookup(worker_conn->server->app2reducer_queue, worker_conn->app_name->str);
+  if(!queue)
+    return NULL;
+  
+  len = g_queue_get_length(queue);
+  idx = rand()%len;
+  
+  return g_queue_peek_nth(queue, idx);
+}
+
 static void dec_server_send_task(DEC_WORKER_CONNECTION conn){
 
   char task_path[1024]={0}, task_file[1024]={0};
   char *file_name=NULL;
-  char *data=NULL;
-  int32_t size=0;
+  char *data=NULL, *tmp=NULL;
+  int32_t size=0, offset=0;
+  unsigned char len=0;
   char *buf=NULL;
+  DEC_REDUCER_CONNECTION reducer_conn=NULL;
 
   sprintf(task_path, "%s/%s", conn->server->task_root_dir->str, conn->app_name->str);
 
@@ -256,17 +274,56 @@ static void dec_server_send_task(DEC_WORKER_CONNECTION conn){
     return;
   }
 
+  reducer_conn=dec_server_high_priority_reducer_get(conn);
+  if(!reducer_conn){
+    /* no reducer */
+    util_message_packet_create((char**)&buf, 
+			       (int32_t)COM_S_ERROR, 
+			       (char*)COM_S_ERROR_MSG_NO_REDUCER, 
+			       (int32_t)strlen(COM_S_ERROR_MSG_NO_REDUCER));
+    bufferevent_write(conn->bev, buf, COM_HEADER_SIZE+strlen(COM_S_ERROR_MSG_NO_REDUCER));
+    free(buf);
+
+    printf("no reducer for %s is registered\n", conn->app_name->str);
+    return;
+  }
+
+  
   sprintf(task_file, "%s/%s", task_path,  file_name);
-  util_load_file(&data, &size, task_file);
+  util_load_file(&tmp, &size, task_file);
+  
+
+  data = malloc(size+strlen(reducer_conn->ip->str)+strlen(reducer_conn->port->str)+2);
+  assert(data);
+
+  /* add reucer ip and port first */
+  len = strlen(reducer_conn->ip->str);
+  memcpy(data, &len, 1);
+  offset++;
+  
+  memcpy(data+offset, reducer_conn->ip->str, len);
+  offset += len;
+
+  len=strlen(reducer_conn->port->str);
+  memcpy(data+offset, &len, 1);
+  offset++;
+  
+  memcpy(data+offset, reducer_conn->port->str, len);
+  offset += len;
+
+  /*padding with task file data */
+  memcpy(data+offset, tmp, size);
   
   printf("send:\"%s\" to fd:%d\n\n", task_file, conn->fd);
 
   /* send task file */
-  util_message_packet_create(&buf, (int32_t)COM_W_TASK, data, size);
+  util_message_packet_create(&buf, (int32_t)COM_W_TASK, data, size+offset);
 
-  bufferevent_write(conn->bev, buf, COM_HEADER_SIZE+size);
+  bufferevent_write(conn->bev, buf, COM_HEADER_SIZE+size+offset);
   remove(task_file);
 
+  if(tmp)
+    free(tmp);
   
   if(data)
     free(data);

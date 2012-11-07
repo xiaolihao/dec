@@ -78,6 +78,7 @@ enum _dec_reducer_state{
 
 #define COM_S_ERROR_MSG_NO_EXE "NO EXE ON SERVER"
 #define COM_S_ERROR_MSG_FAIL_EX_MSG "FAIL TO EXTRACT REGISTER MSG"
+#define COM_S_ERROR_MSG_NO_REDUCER "NO REDUCER FOR THIS APP IS REGISTERED"
 #ifdef __cplusplus
 }
 #endif
