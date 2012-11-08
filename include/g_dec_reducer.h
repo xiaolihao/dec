@@ -40,4 +40,7 @@ struct _dec_reducer{
   /* for count time */
   struct timeval hb_tv;
   int32_t heartbeat_internal;
+
+  int32_t listen_port;
+  struct evconlistener *net_listener;
 };

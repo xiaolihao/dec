@@ -37,34 +37,40 @@ event2/listener.h
 -
 event2/util.h
 -
+zip.h
+../include/zip.h
 
-../include/g_dec_reducer.h
+../minizip/include/ioapi.h
+stdio.h
+-
+stdlib.h
+-
+zlib.h
+../minizip/include/zlib.h
+stdint.h
+-
+mz64conf.h
+../minizip/include/mz64conf.h
+stdint.h
+../minizip/include/stdint.h
 
-../include/g_dec_serv.h
-
-../include/g_dec_worker.h
-
-/Users/tll007/dev/dec/src/g_dec_reducer.c
-g_dec_internal.h
-/Users/tll007/dev/dec/src/g_dec_internal.h
-g_dec_reducer.h
-/Users/tll007/dev/dec/src/g_dec_reducer.h
-
-/Users/tll007/dev/dec/src/g_dec_serv.c
-g_dec_internal.h
-/Users/tll007/dev/dec/src/g_dec_internal.h
-g_dec_serv.h
-/Users/tll007/dev/dec/src/g_dec_serv.h
+../minizip/include/zip.h
+zlib.h
+../minizip/include/zlib.h
+ioapi.h
+../minizip/include/ioapi.h
+bzlib.h
+../minizip/include/bzlib.h
 
 /Users/tll007/dev/dec/src/g_dec_util.c
 g_dec_internal.h
 /Users/tll007/dev/dec/src/g_dec_internal.h
 
-/Users/tll007/dev/dec/src/g_dec_worker.c
-g_dec_internal.h
-/Users/tll007/dev/dec/src/g_dec_internal.h
-g_dec_worker.h
-/Users/tll007/dev/dec/src/g_dec_worker.h
+/opt/local/include/bzlib.h
+stdio.h
+-
+windows.h
+-
 
 /opt/local/include/event2/buffer.h
 event2/event-config.h
@@ -665,4 +671,22 @@ limits.h
 -
 float.h
 -
+
+/usr/local/include/zconf.h
+windows.h
+-
+limits.h
+-
+sys/types.h
+-
+stddef.h
+-
+unistd.h
+-
+unixio.h
+-
+
+/usr/local/include/zlib.h
+zconf.h
+/usr/local/include/zconf.h
 

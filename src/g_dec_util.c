@@ -125,6 +125,77 @@ int util_dir_empty(char *path){
     return G_OK;
 }
 
+int util_compress_dir_to_file(char **dest_file,
+			      char *prefix,
+			      char *src_dir){
+
+  GDir *dir=g_dir_open(src_dir, 0, NULL);
+  char *file=NULL;
+  char name_prefix[128];
+  char *tmp_dir_name;
+  char dest[1024];
+  char src[1024];
+  zipFile zf;
+  
+  if(!prefix)
+    tmp_dir_name = g_dir_make_tmp(NULL, NULL);
+  else{
+    sprintf(name_prefix,"%s-XXXXXX", prefix);
+    tmp_dir_name = g_dir_make_tmp(name_prefix, NULL);
+  }
+  
+  if(!tmp_dir_name || !dir){
+    g_dir_close(dir);
+    g_free(tmp_dir_name);
+    return G_ERROR;
+  }
+
+  sprintf(dest, "%s/%d.zip",tmp_dir_name, time(0));
+  zf = zipOpen(dest, APPEND_STATUS_CREATE);
+
+  if(!zf){
+    g_dir_close(dir);
+    g_free(tmp_dir_name);
+    return G_ERROR;
+  }
+
+  printf("dest:%s\n", dest);
+  /* move all file to tmp dir first */
+  while((file=g_dir_read_name(dir)) != NULL){
+    sprintf(dest, "%s/%s", tmp_dir_name, file);
+    sprintf(src, "%s/%s", src_dir, file);
+    rename(src, dest);
+
+    zip_fileinfo zi;
+    memset(&zi, 0, sizeof(zi));
+    
+    if(zipOpenNewFileInZip(zf,
+			   dest,
+			   &zi,
+			   NULL,
+			   0,
+			   NULL,
+			   0,
+			   NULL,
+			   Z_DEFLATED,
+			   Z_BEST_COMPRESSION) != ZIP_OK){
+
+      g_dir_close(dir);
+      g_free(tmp_dir_name);
+      zipClose(zf, NULL);
+      return G_ERROR;
+    }
+
+    remove(dest);
+    
+  }
+  
+  zipClose(zf, NULL);
+  g_dir_close(dir);
+  g_free(tmp_dir_name);
+  return G_OK;
+}
+
 int util_fetch_single_file(char **task_file,
 			   char *path){
   
@@ -193,5 +264,49 @@ int util_save_file(char *data,
   fwrite(data, 1, size, fp);
   fclose(fp);
 
+  return G_OK;
+}
+
+
+int util_send_data_to_host(char *ip,
+			   char *port,
+			   char *data,
+			   int32_t size){
+  struct sockaddr_in addr;
+  int32_t addr_len=0;
+  int32_t offset=0, len=0;
+  int fd;
+  
+  if((fd=socket(AF_INET, SOCK_STREAM, 0)) < 0)
+    return G_ERROR;
+  
+  memset(&addr, 0, sizeof(struct sockaddr_in));
+  addr.sin_family=AF_INET;
+  addr.sin_addr.s_addr=inet_addr(ip);
+  addr.sin_port=htons(atoi(port));
+  
+  if(connect(fd, (struct sockaddr*)&addr, sizeof(struct sockaddr_in)) < 0){
+    close(fd);
+    return G_ERROR;
+  }
+
+  while(offset+NET_BUF_SIZE <= size){
+    if(send(fd, data+offset, NET_BUF_SIZE, 0) != NET_BUF_SIZE){
+      close(fd);
+      return G_ERROR;
+    }
+    
+    offset += NET_BUF_SIZE;
+  }
+
+  if(offset < size){
+    if(send(fd, data+offset, size-offset, 0) != size-offset){
+      close(fd);
+      return G_ERROR;
+    }
+  }
+
+
+  close(fd);
   return G_OK;
 }

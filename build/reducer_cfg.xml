@@ -1,5 +1,5 @@
 <DecReducerCfg>
-	<MyIP>127.0.0.2</MyIP>
+	<MyIP>127.0.0.1</MyIP>
 	<MyPort>9006</MyPort>
 	<ServerPort>9000</ServerPort>
 	<ServerIP>127.0.0.1</ServerIP>

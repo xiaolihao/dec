@@ -1,0 +1,2 @@
+/usr/bin/ar cr libzip.a  CMakeFiles/zip.dir/minizip/src/ioapi.c.o CMakeFiles/zip.dir/minizip/src/zip.c.o CMakeFiles/zip.dir/minizip/src/unzip.c.o CMakeFiles/zip.dir/minizip/src/mztools.c.o
+/usr/bin/ranlib libzip.a

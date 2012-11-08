@@ -127,6 +127,115 @@ dec/fast:
 	$(MAKE) -f CMakeFiles/dec.dir/build.make CMakeFiles/dec.dir/build
 .PHONY : dec/fast
 
+#=============================================================================
+# Target rules for targets named zip
+
+# Build rule for target.
+zip: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 zip
+.PHONY : zip
+
+# fast build rule for target.
+zip/fast:
+	$(MAKE) -f CMakeFiles/zip.dir/build.make CMakeFiles/zip.dir/build
+.PHONY : zip/fast
+
+minizip/src/ioapi.o: minizip/src/ioapi.c.o
+.PHONY : minizip/src/ioapi.o
+
+# target to build an object file
+minizip/src/ioapi.c.o:
+	$(MAKE) -f CMakeFiles/zip.dir/build.make CMakeFiles/zip.dir/minizip/src/ioapi.c.o
+.PHONY : minizip/src/ioapi.c.o
+
+minizip/src/ioapi.i: minizip/src/ioapi.c.i
+.PHONY : minizip/src/ioapi.i
+
+# target to preprocess a source file
+minizip/src/ioapi.c.i:
+	$(MAKE) -f CMakeFiles/zip.dir/build.make CMakeFiles/zip.dir/minizip/src/ioapi.c.i
+.PHONY : minizip/src/ioapi.c.i
+
+minizip/src/ioapi.s: minizip/src/ioapi.c.s
+.PHONY : minizip/src/ioapi.s
+
+# target to generate assembly for a file
+minizip/src/ioapi.c.s:
+	$(MAKE) -f CMakeFiles/zip.dir/build.make CMakeFiles/zip.dir/minizip/src/ioapi.c.s
+.PHONY : minizip/src/ioapi.c.s
+
+minizip/src/mztools.o: minizip/src/mztools.c.o
+.PHONY : minizip/src/mztools.o
+
+# target to build an object file
+minizip/src/mztools.c.o:
+	$(MAKE) -f CMakeFiles/zip.dir/build.make CMakeFiles/zip.dir/minizip/src/mztools.c.o
+.PHONY : minizip/src/mztools.c.o
+
+minizip/src/mztools.i: minizip/src/mztools.c.i
+.PHONY : minizip/src/mztools.i
+
+# target to preprocess a source file
+minizip/src/mztools.c.i:
+	$(MAKE) -f CMakeFiles/zip.dir/build.make CMakeFiles/zip.dir/minizip/src/mztools.c.i
+.PHONY : minizip/src/mztools.c.i
+
+minizip/src/mztools.s: minizip/src/mztools.c.s
+.PHONY : minizip/src/mztools.s
+
+# target to generate assembly for a file
+minizip/src/mztools.c.s:
+	$(MAKE) -f CMakeFiles/zip.dir/build.make CMakeFiles/zip.dir/minizip/src/mztools.c.s
+.PHONY : minizip/src/mztools.c.s
+
+minizip/src/unzip.o: minizip/src/unzip.c.o
+.PHONY : minizip/src/unzip.o
+
+# target to build an object file
+minizip/src/unzip.c.o:
+	$(MAKE) -f CMakeFiles/zip.dir/build.make CMakeFiles/zip.dir/minizip/src/unzip.c.o
+.PHONY : minizip/src/unzip.c.o
+
+minizip/src/unzip.i: minizip/src/unzip.c.i
+.PHONY : minizip/src/unzip.i
+
+# target to preprocess a source file
+minizip/src/unzip.c.i:
+	$(MAKE) -f CMakeFiles/zip.dir/build.make CMakeFiles/zip.dir/minizip/src/unzip.c.i
+.PHONY : minizip/src/unzip.c.i
+
+minizip/src/unzip.s: minizip/src/unzip.c.s
+.PHONY : minizip/src/unzip.s
+
+# target to generate assembly for a file
+minizip/src/unzip.c.s:
+	$(MAKE) -f CMakeFiles/zip.dir/build.make CMakeFiles/zip.dir/minizip/src/unzip.c.s
+.PHONY : minizip/src/unzip.c.s
+
+minizip/src/zip.o: minizip/src/zip.c.o
+.PHONY : minizip/src/zip.o
+
+# target to build an object file
+minizip/src/zip.c.o:
+	$(MAKE) -f CMakeFiles/zip.dir/build.make CMakeFiles/zip.dir/minizip/src/zip.c.o
+.PHONY : minizip/src/zip.c.o
+
+minizip/src/zip.i: minizip/src/zip.c.i
+.PHONY : minizip/src/zip.i
+
+# target to preprocess a source file
+minizip/src/zip.c.i:
+	$(MAKE) -f CMakeFiles/zip.dir/build.make CMakeFiles/zip.dir/minizip/src/zip.c.i
+.PHONY : minizip/src/zip.c.i
+
+minizip/src/zip.s: minizip/src/zip.c.s
+.PHONY : minizip/src/zip.s
+
+# target to generate assembly for a file
+minizip/src/zip.c.s:
+	$(MAKE) -f CMakeFiles/zip.dir/build.make CMakeFiles/zip.dir/minizip/src/zip.c.s
+.PHONY : minizip/src/zip.c.s
+
 src/_dec.o: src/_dec.c.o
 .PHONY : src/_dec.o
 
@@ -257,6 +366,19 @@ help:
 	@echo "... dec"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... zip"
+	@echo "... minizip/src/ioapi.o"
+	@echo "... minizip/src/ioapi.i"
+	@echo "... minizip/src/ioapi.s"
+	@echo "... minizip/src/mztools.o"
+	@echo "... minizip/src/mztools.i"
+	@echo "... minizip/src/mztools.s"
+	@echo "... minizip/src/unzip.o"
+	@echo "... minizip/src/unzip.i"
+	@echo "... minizip/src/unzip.s"
+	@echo "... minizip/src/zip.o"
+	@echo "... minizip/src/zip.i"
+	@echo "... minizip/src/zip.s"
 	@echo "... src/_dec.o"
 	@echo "... src/_dec.i"
 	@echo "... src/_dec.s"

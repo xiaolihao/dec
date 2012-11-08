@@ -4,7 +4,10 @@
 CMakeFiles/dec.dir/src/g_dec_reducer.c.o
  ../include/g_dec_internal.h
  ../include/g_dec_reducer.h
+ ../minizip/include/ioapi.h
+ ../minizip/include/zip.h
  /Users/tll007/dev/dec/src/g_dec_reducer.c
+ /opt/local/include/bzlib.h
  /opt/local/include/event2/buffer.h
  /opt/local/include/event2/bufferevent.h
  /opt/local/include/event2/event-config.h
@@ -87,10 +90,15 @@ CMakeFiles/dec.dir/src/g_dec_reducer.c.o
  /opt/local/include/glib-2.0/glib/gversionmacros.h
  /opt/local/include/glib-2.0/glib/gwin32.h
  /opt/local/lib/glib-2.0/include/glibconfig.h
+ /usr/local/include/zconf.h
+ /usr/local/include/zlib.h
 CMakeFiles/dec.dir/src/g_dec_serv.c.o
  ../include/g_dec_internal.h
  ../include/g_dec_serv.h
+ ../minizip/include/ioapi.h
+ ../minizip/include/zip.h
  /Users/tll007/dev/dec/src/g_dec_serv.c
+ /opt/local/include/bzlib.h
  /opt/local/include/event2/buffer.h
  /opt/local/include/event2/bufferevent.h
  /opt/local/include/event2/event-config.h
@@ -173,9 +181,14 @@ CMakeFiles/dec.dir/src/g_dec_serv.c.o
  /opt/local/include/glib-2.0/glib/gversionmacros.h
  /opt/local/include/glib-2.0/glib/gwin32.h
  /opt/local/lib/glib-2.0/include/glibconfig.h
+ /usr/local/include/zconf.h
+ /usr/local/include/zlib.h
 CMakeFiles/dec.dir/src/g_dec_util.c.o
  ../include/g_dec_internal.h
+ ../minizip/include/ioapi.h
+ ../minizip/include/zip.h
  /Users/tll007/dev/dec/src/g_dec_util.c
+ /opt/local/include/bzlib.h
  /opt/local/include/event2/buffer.h
  /opt/local/include/event2/bufferevent.h
  /opt/local/include/event2/event-config.h
@@ -258,10 +271,15 @@ CMakeFiles/dec.dir/src/g_dec_util.c.o
  /opt/local/include/glib-2.0/glib/gversionmacros.h
  /opt/local/include/glib-2.0/glib/gwin32.h
  /opt/local/lib/glib-2.0/include/glibconfig.h
+ /usr/local/include/zconf.h
+ /usr/local/include/zlib.h
 CMakeFiles/dec.dir/src/g_dec_worker.c.o
  ../include/g_dec_internal.h
  ../include/g_dec_worker.h
+ ../minizip/include/ioapi.h
+ ../minizip/include/zip.h
  /Users/tll007/dev/dec/src/g_dec_worker.c
+ /opt/local/include/bzlib.h
  /opt/local/include/event2/buffer.h
  /opt/local/include/event2/bufferevent.h
  /opt/local/include/event2/event-config.h
@@ -344,3 +362,5 @@ CMakeFiles/dec.dir/src/g_dec_worker.c.o
  /opt/local/include/glib-2.0/glib/gversionmacros.h
  /opt/local/include/glib-2.0/glib/gwin32.h
  /opt/local/lib/glib-2.0/include/glibconfig.h
+ /usr/local/include/zconf.h
+ /usr/local/include/zlib.h

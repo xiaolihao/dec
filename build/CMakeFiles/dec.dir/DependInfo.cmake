@@ -13,11 +13,13 @@ SET(CMAKE_C_COMPILER_ID "GNU")
 
 # Targets to which this target links.
 SET(CMAKE_TARGET_LINKED_INFO_FILES
+  "/Users/tll007/dev/dec/build/CMakeFiles/zip.dir/DependInfo.cmake"
   )
 
 # The include file search paths:
 SET(CMAKE_C_TARGET_INCLUDE_PATH
   "../include"
+  "../minizip/include"
   "/usr/local/include"
   "/opt/local/include"
   "/opt/local/include/glib-2.0"

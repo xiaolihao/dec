@@ -22,3 +22,8 @@ void util_save_file(char* data,
 		    char* file_name);
 
 int util_file_existence(char *full_file_path);
+
+int util_send_data_to_host(char *ip,
+			   char *port,
+			   char *data,
+			   int32_t size);

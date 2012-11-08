@@ -176,10 +176,13 @@ CMAKE_XCODE_SELECT:FILEPATH=/usr/bin/xcode-select
 dec_BINARY_DIR:STATIC=/Users/tll007/dev/dec/build
 
 //Dependencies for the target
-dec_LIB_DEPENDS:STATIC=general;event;general;glib-2.0.0;
+dec_LIB_DEPENDS:STATIC=general;zip;general;z;general;event;general;glib-2.0.0;
 
 //Value Computed by CMake
 dec_SOURCE_DIR:STATIC=/Users/tll007/dev/dec
+
+//Dependencies for target
+zip_LIB_DEPENDS:STATIC=
 
 
 ########################

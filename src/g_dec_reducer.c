@@ -22,7 +22,54 @@ static void dec_reducer_heartbeat_cb(evutil_socket_t fd,
 }
 
 
+static void dec_reducer_net_message_from_worker_read_callback(struct bufferevent *bev,
+							      void *p){
 
+  char buf[11];
+  char name[5];
+  int32_t data;
+  unsigned char len=0;
+
+  bufferevent_read(bev, buf, 10);
+  
+  len=*buf;
+  
+  memcpy(name, buf+1, len);
+  name[len]='\0';
+
+  memcpy(&data, buf+6, 4);
+
+  printf("recv\t\tapp:%s, data:%d\n", name, data);
+
+  bufferevent_free(bev);
+}
+
+static void dec_reducer_accept_incoming_request_callback(struct evconnlistener *listener, 
+							 evutil_socket_t fd,
+							 struct sockaddr *addr, 
+							 int slen, 
+							 void *p){
+
+  DEC_REDUCER reducer=(DEC_REDUCER)p;
+  struct bufferevent *bev=NULL;
+  
+
+  bev=bufferevent_socket_new(reducer->base, 
+			     fd,
+			     BEV_OPT_CLOSE_ON_FREE|BEV_OPT_DEFER_CALLBACKS|LEV_OPT_THREADSAFE);
+
+  assert(bev);
+
+  bufferevent_setcb(bev, 
+		    dec_reducer_net_message_from_worker_read_callback,
+		    NULL, 
+		    NULL,
+		    reducer);
+  
+  bufferevent_enable(bev, EV_READ|EV_WRITE);
+
+  printf("----CONNECTING----\nconnection fd:%d\n\n", fd);
+}
 
 
 int dec_reducer_net_message_process(DEC_REDUCER reducer,
@@ -33,6 +80,9 @@ int dec_reducer_net_message_process(DEC_REDUCER reducer,
   int32_t fd=-1;
   char *buf=NULL;
   char msg[1024];
+  int32_t addr_len=0;
+  struct sockaddr_storage net_addr;
+  char port[128];
 
   fd = bufferevent_getfd(bev);
 
@@ -49,6 +99,25 @@ int dec_reducer_net_message_process(DEC_REDUCER reducer,
       reducer->hb_tv.tv_sec = reducer->heartbeat_internal;
       reducer->hb_tv.tv_usec = 0;
       evtimer_add(reducer->hb_ev, &reducer->hb_tv);
+
+      /* set net listener to recv results packet from worker node */
+      addr_len=sizeof(struct sockaddr_storage);
+      sprintf(port, "%d", reducer->listen_port);
+      if(evutil_parse_sockaddr_port(port, &net_addr, &addr_len)<0){
+	int32_t p = reducer->listen_port;
+	struct sockaddr_in *sin = &net_addr;
+	sin->sin_port = htons(p);
+	sin->sin_addr.s_addr = INADDR_ANY;
+	sin->sin_family = AF_INET;
+	addr_len = sizeof(struct sockaddr_in);
+      }
+      reducer->net_listener=evconnlistener_new_bind(reducer->base, 
+						    dec_reducer_accept_incoming_request_callback,
+						    reducer,
+						    LEV_OPT_CLOSE_ON_FREE|LEV_OPT_CLOSE_ON_EXEC|LEV_OPT_REUSEABLE|LEV_OPT_THREADSAFE,
+						    -1,
+						    &net_addr, 
+						    addr_len);
       break;
     }
     
@@ -69,7 +138,7 @@ int dec_reducer_net_message_process(DEC_REDUCER reducer,
   return G_OK;
 }
 
-static void dec_reducer_net_message_read_callback(struct bufferevent *bev,
+static void dec_reducer_net_message_from_server_read_callback(struct bufferevent *bev,
 						  void *p){
   DEC_REDUCER reducer=(DEC_REDUCER)p;
   struct evbuffer *src=NULL;
@@ -121,7 +190,7 @@ static void dec_reducer_net_message_read_callback(struct bufferevent *bev,
   }
 }
 
-static void dec_reducer_net_event_callback(struct bufferevent *bev, 
+static void dec_reducer_net_event_from_server_callback(struct bufferevent *bev, 
 					   short what, 
 					   void *p){
   DEC_REDUCER reducer=(DEC_REDUCER)p;
@@ -180,7 +249,7 @@ DEC_REDUCER g_dec_reducer_init(char *serv_ip,
 
 
   bufferevent_setcb(reducer->local_bev, 
-		    dec_reducer_net_message_read_callback,
+		    NULL,
 		    NULL, 
 		    NULL,
 		    reducer);
@@ -222,9 +291,9 @@ DEC_REDUCER g_dec_reducer_init(char *serv_ip,
     return NULL;
 
   bufferevent_setcb(reducer->bev,
-		    dec_reducer_net_message_read_callback,
+		    dec_reducer_net_message_from_server_read_callback,
 		    NULL,
-		    dec_reducer_net_event_callback,
+		    dec_reducer_net_event_from_server_callback,
 		    reducer);
 
   bufferevent_enable(reducer->bev, EV_READ|EV_WRITE);
@@ -238,6 +307,9 @@ DEC_REDUCER g_dec_reducer_init(char *serv_ip,
 
   reducer->heartbeat_internal=heartbeat_internal;
   
+  reducer->listen_port=atoi(my_port);
+  reducer->net_listener=NULL;
+  
   return reducer;
 }
 
@@ -248,5 +320,6 @@ void g_dec_reducer_start(DEC_REDUCER reducer){
 
 void g_dec_reducer_free(DEC_REDUCER reducer){
   event_base_free(reducer->base);  
+  evconnlistener_free(reducer->net_listener);
   free(reducer);
 }

@@ -6,6 +6,7 @@ extern "C" {
 #endif
 
 #include <glib.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -23,6 +24,7 @@ extern "C" {
 #include <event2/listener.h>
 #include <event2/util.h>
 
+#include "zip.h"
 /** dec net package format
  *
  * ----package header(12 bytes)----
@@ -79,6 +81,9 @@ enum _dec_reducer_state{
 #define COM_S_ERROR_MSG_NO_EXE "NO EXE ON SERVER"
 #define COM_S_ERROR_MSG_FAIL_EX_MSG "FAIL TO EXTRACT REGISTER MSG"
 #define COM_S_ERROR_MSG_NO_REDUCER "NO REDUCER FOR THIS APP IS REGISTERED"
+
+
+#define NET_BUF_SIZE 1024
 #ifdef __cplusplus
 }
 #endif

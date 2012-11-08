@@ -85,6 +85,7 @@ _dec_EXTERNAL_OBJECTS =
 _dec: CMakeFiles/_dec.dir/src/_dec.c.o
 _dec: CMakeFiles/_dec.dir/build.make
 _dec: libdec.a
+_dec: libzip.a
 _dec: CMakeFiles/_dec.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking C executable _dec"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/_dec.dir/link.txt --verbose=$(VERBOSE)

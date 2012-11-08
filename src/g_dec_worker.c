@@ -27,15 +27,33 @@ static void dec_worker_task_check_cb(evutil_socket_t fd,
 				     void *p){
   DEC_WORKER worker = (DEC_WORKER)p;
   char *buf=NULL;
-  
+  char packet[1024];
+  unsigned char len=0;
+  int32_t offset=0;
   waitpid(-1, NULL, 0);
-
+  
   
   /* try to upload results file to reducer node */
   /* ... */
+  len = strlen(worker->app_name->str);
+  memcpy(packet, &len, 1);
+  offset++;
+
+  memcpy(packet+offset, worker->app_name->str, len);
+  offset += len;
+
+  len=4;
+  memcpy(packet+offset, &len, 1);
+  offset++;
+
+  memcpy(packet+offset, &offset, 4);
+  offset += 4;
+
+  util_send_data_to_host(worker->reducer_ip->str,
+			 worker->reducer_port->str,
+			 packet,
+			 offset);
   
-
-
   sleep(1);
 
   /* send idle mesage */
@@ -118,7 +136,9 @@ int dec_worker_net_message_process(DEC_WORKER worker,
       memcpy(port, (char*)data+offset, len);
       port[len]='\0';
       offset += len;
-      printf("ip:%s,port:%s\n", ip, port);
+
+      g_string_assign(worker->reducer_ip, ip);
+      g_string_assign(worker->reducer_port, port);
 
       /* save file to task dir */
       sprintf(task_path, "%s/%s", worker->task_root_dir->str, worker->app_name->str);
