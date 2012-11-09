@@ -320,7 +320,7 @@ int main(int argc, char *argv[]){
       . error=NULL
     }; 
 
-    util_compress_dir_to_file(0, 0, "./task_on_worker/app1");
+
     if(argc != 4){
       usage();
       return 0;

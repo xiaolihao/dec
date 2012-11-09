@@ -25,22 +25,38 @@ static void dec_reducer_heartbeat_cb(evutil_socket_t fd,
 static void dec_reducer_net_message_from_worker_read_callback(struct bufferevent *bev,
 							      void *p){
 
-  char buf[11];
-  char name[5];
+  char name[128];
   int32_t data;
   unsigned char len=0;
+  char *buf[NET_BUF_SIZE];
+  int32_t sz=0, tmp=0;
+  FILE *fp=NULL;
+  char recv_file[1024];
 
-  bufferevent_read(bev, buf, 10);
+  bufferevent_read(bev, buf, 1);
   
   len=*buf;
   
-  memcpy(name, buf+1, len);
+  bufferevent_read(bev, buf, len);
+  memcpy(name, buf, len);
   name[len]='\0';
 
-  memcpy(&data, buf+6, 4);
+  bufferevent_read(bev, buf, 4);
+  memcpy(&sz, buf, 4);
 
-  printf("recv\t\tapp:%s, data:%d\n", name, data);
-
+  sprintf(recv_file, "./results/%s/%d.zip", name, time(0));
+  util_mkdir_with_path("./results/app2");
+  fp=fopen(recv_file, "a+");
+  assert(fp);
+  while(tmp+NET_BUF_SIZE <= sz){
+     bufferevent_read(bev, buf, NET_BUF_SIZE);
+     fwrite(buf, 1, NET_BUF_SIZE, fp);
+     tmp += NET_BUF_SIZE;
+  }
+  
+  bufferevent_read(bev, buf, sz-tmp);
+  fwrite(buf, 1, sz-tmp, fp);
+  fclose(fp);
   bufferevent_free(bev);
 }
 

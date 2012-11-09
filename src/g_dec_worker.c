@@ -29,30 +29,40 @@ static void dec_worker_task_check_cb(evutil_socket_t fd,
   char *buf=NULL;
   char packet[1024];
   unsigned char len=0;
-  int32_t offset=0;
+  int32_t sz=0;
+  char zipfile[1024], src_dir[1024];
+
   waitpid(-1, NULL, 0);
   
   
   /* try to upload results file to reducer node */
   /* ... */
-  len = strlen(worker->app_name->str);
-  memcpy(packet, &len, 1);
-  offset++;
+  
+  sprintf(src_dir, "%s/%s", worker->task_root_dir->str, worker->app_name->str);
+  
 
-  memcpy(packet+offset, worker->app_name->str, len);
-  offset += len;
+  /* compress results file */
+  if(util_compress_dir_to_file(zipfile, worker->app_name->str, src_dir) == G_OK){
+    
+    printf("%s\n", zipfile);
+    len = strlen(worker->app_name->str);
+    memcpy(packet, &len, 1);
+    
+    memcpy(packet+1, worker->app_name->str, len);
+    
+    sz = util_get_file_length(zipfile);
+    memcpy(packet+len+1, &sz, 4);
+    /*  send to reducer */
+    util_send_file_to_host_with_prepadding(worker->reducer_ip->str,
+					   worker->reducer_port->str,
+					   zipfile,
+					   packet,
+					   len+5);
 
-  len=4;
-  memcpy(packet+offset, &len, 1);
-  offset++;
-
-  memcpy(packet+offset, &offset, 4);
-  offset += 4;
-
-  util_send_data_to_host(worker->reducer_ip->str,
-			 worker->reducer_port->str,
-			 packet,
-			 offset);
+    remove(zipfile);
+    util_remove_file_parent(zipfile);
+  }
+ 
   
   sleep(1);
 

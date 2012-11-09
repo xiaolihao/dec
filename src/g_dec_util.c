@@ -125,7 +125,20 @@ int util_dir_empty(char *path){
     return G_OK;
 }
 
-int util_compress_dir_to_file(char **dest_file,
+void util_remove_file_parent(char *file){
+  
+  int32_t len=strlen(file);
+  int32_t idx=len-1;
+  
+  while(file[idx] != '/')
+    --idx;
+
+  file[idx]='\0';
+  remove(file);
+  
+}
+
+int util_compress_dir_to_file(char *dest_file,
 			      char *prefix,
 			      char *src_dir){
 
@@ -136,7 +149,11 @@ int util_compress_dir_to_file(char **dest_file,
   char dest[1024];
   char src[1024];
   zipFile zf;
-  
+  int flag = 0;
+  FILE *fp=NULL;
+  char buf[NET_BUF_SIZE];
+  int32_t len=0;
+
   if(!prefix)
     tmp_dir_name = g_dir_make_tmp(NULL, NULL);
   else{
@@ -151,17 +168,23 @@ int util_compress_dir_to_file(char **dest_file,
   }
 
   sprintf(dest, "%s/%d.zip",tmp_dir_name, time(0));
-  zf = zipOpen(dest, APPEND_STATUS_CREATE);
+  memcpy(dest_file, dest, strlen(dest));
+  dest_file[strlen(dest)]='\0';
 
+  zf = zipOpen(dest, APPEND_STATUS_CREATE);
+  
   if(!zf){
     g_dir_close(dir);
     g_free(tmp_dir_name);
     return G_ERROR;
   }
 
-  printf("dest:%s\n", dest);
+
   /* move all file to tmp dir first */
   while((file=g_dir_read_name(dir)) != NULL){
+
+    flag = 1;
+
     sprintf(dest, "%s/%s", tmp_dir_name, file);
     sprintf(src, "%s/%s", src_dir, file);
     rename(src, dest);
@@ -184,8 +207,19 @@ int util_compress_dir_to_file(char **dest_file,
       g_free(tmp_dir_name);
       zipClose(zf, NULL);
       return G_ERROR;
+
+
     }
 
+    fp=fopen(dest, "r");
+    if(!fp)
+      continue;
+
+    while((len=fread(buf, 1, NET_BUF_SIZE, fp)) > 0){
+      assert(zipWriteInFileInZip(zf, buf, len) == ZIP_OK);
+    }
+
+    fclose(fp);
     remove(dest);
     
   }
@@ -193,6 +227,11 @@ int util_compress_dir_to_file(char **dest_file,
   zipClose(zf, NULL);
   g_dir_close(dir);
   g_free(tmp_dir_name);
+
+  if(!flag){
+    remove(zf);
+    return G_ERROR;
+  }
   return G_OK;
 }
 
@@ -264,6 +303,85 @@ int util_save_file(char *data,
   fwrite(data, 1, size, fp);
   fclose(fp);
 
+  return G_OK;
+}
+
+int util_get_file_length(char *file){
+
+  FILE *fp = NULL;
+  int len=0;
+
+  fp = fopen(file, "r");
+  if(!fp)
+    return -1;
+
+  fseek(fp, 0, SEEK_END);
+  len = ftell(fp);
+  fseek(fp,0,SEEK_SET);
+
+  fclose(fp);
+
+  return len;
+}
+
+int util_send_file_to_host_with_prepadding(char *ip,
+					   char *port,
+					   char *file,
+					   char *pre_padding,
+					   int32_t size){
+  struct sockaddr_in addr;
+  int32_t addr_len=0;
+  int32_t offset=0, len=0;
+  int fd;
+  FILE *fp=NULL;
+  char buf[NET_BUF_SIZE];
+
+  if((fd=socket(AF_INET, SOCK_STREAM, 0)) < 0)
+    return G_ERROR;
+  
+  memset(&addr, 0, sizeof(struct sockaddr_in));
+  addr.sin_family=AF_INET;
+  addr.sin_addr.s_addr=inet_addr(ip);
+  addr.sin_port=htons(atoi(port));
+  
+  if(connect(fd, (struct sockaddr*)&addr, sizeof(struct sockaddr_in)) < 0){
+    close(fd);
+    return G_ERROR;
+  }
+  
+  fp = fopen(file, "r");
+  if(!fp){
+    close(fd);
+    return G_ERROR;
+  }
+
+  /* send padding first */
+  if(send(fd, pre_padding, size, 0) != size){
+    close(fd);
+    fclose(fp);
+    return G_ERROR;
+  }
+
+
+  /* send file */
+  while(!feof(fp)){
+    len=fread(buf, 1, NET_BUF_SIZE, fp);
+    
+    if(ferror(fp)){
+      close(fd);
+      fclose(fp);
+      return G_ERROR;
+    }
+    
+    if(send(fd, buf, len, 0) != len){
+      close(fd);
+      fclose(fp);
+      return G_ERROR;
+    }
+  }
+
+  close(fd);
+  fclose(fp);
   return G_OK;
 }
 

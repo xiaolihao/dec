@@ -27,3 +27,14 @@ int util_send_data_to_host(char *ip,
 			   char *port,
 			   char *data,
 			   int32_t size);
+
+int util_get_file_length(char *file);
+
+int util_send_file_to_host_with_prepadding(char *ip,
+					   char *port,
+					   char *file,
+					   char *pre_padding,
+					   int32_t size);
+
+
+void util_remove_file_parent(char *file);
