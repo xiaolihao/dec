@@ -246,6 +246,9 @@ DEC_REDUCER_CONNECTION dec_server_high_priority_reducer_get(DEC_WORKER_CONNECTIO
     return NULL;
   
   len = g_queue_get_length(queue);
+  if(len <= 0)
+    return NULL;
+
   idx = rand()%len;
   
   return g_queue_peek_nth(queue, idx);

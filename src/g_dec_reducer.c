@@ -57,6 +57,10 @@ static void dec_reducer_net_message_from_worker_read_callback(struct bufferevent
   bufferevent_read(bev, buf, sz-tmp);
   fwrite(buf, 1, sz-tmp, fp);
   fclose(fp);
+
+  //
+  util_uncompress_file_to_dir("./results/app2", recv_file);
+  //
   bufferevent_free(bev);
 }
 
