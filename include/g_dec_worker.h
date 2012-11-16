@@ -36,7 +36,8 @@ struct _dec_worker{
 
   struct _GString *task_root_dir;
   struct _GString *exe_root_dir;
-  
+  struct _GString *result_root_dir;
+
   /* triggler worker's state */
   int32_t state;
 

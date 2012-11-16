@@ -3,6 +3,7 @@
 	<MyPort>9006</MyPort>
 	<ServerPort>9000</ServerPort>
 	<ServerIP>127.0.0.1</ServerIP>
+	<ResultRootDir>./result_on_reducer</ResultRootDir>
 	<App>
 	  <AppName>app1</AppName>
 	  <AppName>app2</AppName>

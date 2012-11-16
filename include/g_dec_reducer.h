@@ -43,4 +43,6 @@ struct _dec_reducer{
 
   int32_t listen_port;
   struct evconlistener *net_listener;
+
+  struct _GString *result_root_dir;
 };
