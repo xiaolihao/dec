@@ -138,6 +138,84 @@ void util_remove_file_parent(char *file){
   
 }
 
+
+int util_uncompress_file_to_dir(char *dest_dir,
+				char *zip_file){
+  unz_global_info uzgi;
+  unzFile uzf = unzOpen(zip_file);
+  int i=0;
+  unz_file_info file_info;
+  char file_name[1024], file_path[1024];
+  FILE *fp=NULL;
+  int rdsz = 0;
+  char buf[1024];
+
+  if(!uzf){
+    printf("uncompress:\t%s\t\t\[ERROR]\n", zip_file);
+    return G_ERROR;
+  }
+ 
+  if(unzGetGlobalInfo(uzf,&uzgi) != UNZ_OK){
+    unzClose(uzf);
+    return G_ERROR;
+  }
+  
+  
+  for(; i<uzgi.number_entry; i++){
+    
+        
+    if(unzGetCurrentFileInfo(uzf, 
+			     &file_info, 
+			     file_name, 
+			     1024, 
+			     NULL, 
+			     0, 
+			     NULL, 
+			     0) != UNZ_OK){
+      if((i+1) < uzgi.number_entry){
+	if(unzGoToNextFile(uzf) != UNZ_OK){
+	  unzClose(uzf);
+	  return G_ERROR;
+	}
+      }
+      continue;
+    }
+    
+    if(unzOpenCurrentFile(uzf) != UNZ_OK){
+      if((i+1) < uzgi.number_entry){
+	if(unzGoToNextFile(uzf) != UNZ_OK){
+	  unzClose(uzf);
+	  return G_ERROR;
+	}
+      }
+      continue;
+    }
+    
+    sprintf(file_path, "%s/%d", dest_dir, time(0));
+    fp=fopen(file_path,"wb");
+    
+    printf("path:%s\n", file_path);
+    assert(fp);
+
+    while((rdsz=unzReadCurrentFile(uzf, buf, 1024)) > 0)
+      fwrite(buf, rdsz, 1, fp);
+    
+    fclose(fp);
+    unzCloseCurrentFile(uzf);
+    
+    if((i+1) < uzgi.number_entry){
+      if(unzGoToNextFile(uzf) != UNZ_OK){
+	unzClose(uzf);
+	return G_ERROR;
+      }
+    }
+
+  }
+    unzClose(uzf);
+
+    return G_OK;
+}
+
 int util_compress_dir_to_file(char *dest_file,
 			      char *prefix,
 			      char *src_dir){

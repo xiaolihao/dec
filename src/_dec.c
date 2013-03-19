@@ -54,6 +54,7 @@ struct _dec_worker_cfg{
   
   /* required */
   char task_root_dir[128];
+  char result_root_dir[128];
   char exec_root_dir[128];
   char server_port[128];
   char server_ip[128];
@@ -65,6 +66,7 @@ struct _dec_worker_cfg{
 };
 
 void dec_worker_cfg_init(struct _dec_worker_cfg *cfg){
+  memset(cfg->result_root_dir, 0, 128);
   memset(cfg->task_root_dir, 0, 128);
   memset(cfg->exec_root_dir, 0, 128);
   memset(cfg->server_port, 0, 128);
@@ -77,6 +79,7 @@ void dec_worker_cfg_init(struct _dec_worker_cfg *cfg){
 
 int dec_worker_cfg_check(struct _dec_worker_cfg cfg){
   if(strlen(cfg.task_root_dir) == 0 ||
+     strlen(cfg.result_root_dir) == 0 ||
      strlen(cfg.exec_root_dir) == 0 ||
      strlen(cfg.server_port) == 0 ||
      strlen(cfg.server_ip) == 0 ||
@@ -89,7 +92,8 @@ int dec_worker_cfg_check(struct _dec_worker_cfg cfg){
 
 void dec_worker_cfg_dispaly(struct _dec_worker_cfg cfg){
   printf("\n\nDEC WORKER RUNNING CONFIGURE\n-------------------------------------------\n");
-  printf("task_root_dir\t\t\t%s\nexec_root_dir\t\t\t%s\nserver_port\t\t\t%s\nserver_ip\t\t\t%s\napp_name\t\t\t%s\nheartbeat_internal\t\t%d\n",
+  printf("result_root_dir\t\t\t%s\ntask_root_dir\t\t\t%s\nexec_root_dir\t\t\t%s\nserver_port\t\t\t%s\nserver_ip\t\t\t%s\napp_name\t\t\t%s\nheartbeat_internal\t\t%d\n",
+	 cfg.result_root_dir,
 	 cfg.task_root_dir,
 	 cfg.exec_root_dir,
 	 cfg.server_port,
@@ -106,6 +110,7 @@ struct _dec_reducer_cfg{
   char my_ip[128];
   char my_port[128];
 
+  char result_root_dir[128];
   char **apps;
   int32_t count;
   int32_t heartbeat_internal;
@@ -114,11 +119,12 @@ struct _dec_reducer_cfg{
 void dec_reducer_cfg_dispaly(struct _dec_reducer_cfg cfg){
   int idx=0;
   printf("\n\nDEC REDUCER RUNNING CONFIGURE\n-------------------------------------------\n");
-  printf("my_ip\t\t\t%s\nmy_port\t\t\t%s\nserver_port\t\t\t%s\nserver_ip\t\t\t%s\nheartbeat_internal\t\t%d\n",
+  printf("my_ip\t\t\t%s\nmy_port\t\t\t%s\nserver_port\t\t\t%s\nserver_ip\t\t\t%s\nresult_root_dir\t\t\t%s\nheartbeat_internal\t\t%d\n",
 	 cfg.my_ip,
 	 cfg.my_port,
 	 cfg.server_port,
 	 cfg.server_ip,
+	 cfg.result_root_dir,
 	 cfg.heartbeat_internal);
 
   printf("apps\t\t");
@@ -136,7 +142,7 @@ void dec_reducer_cfg_init(struct _dec_reducer_cfg *cfg){
   memset(cfg->my_port, 0, 128);
   memset(cfg->server_port, 0, 128);
   memset(cfg->server_ip, 0, 128);
-
+  memset(cfg->result_root_dir, 0, 128);
   cfg->heartbeat_internal=10;
 
   cfg->count=0;
@@ -147,6 +153,7 @@ int dec_reducer_cfg_check(struct _dec_reducer_cfg cfg){
   if(strlen(cfg.my_ip) == 0 ||
      strlen(cfg.my_port) == 0 ||
      strlen(cfg.server_port) == 0 ||
+     strlen(cfg.result_root_dir) == 0 ||
      strlen(cfg.server_ip) == 0)
     return -1;
   else
@@ -215,6 +222,11 @@ static void worker_text(GMarkupParseContext *context,
     cfg->exec_root_dir[text_len]='\0';
   }
 
+  else if(strcmp(element, "ResultRootDir") == 0){
+    strncpy(cfg->result_root_dir, text, text_len);
+    cfg->result_root_dir[text_len]='\0';
+  }
+
   else if(strcmp(element, "ServerPort") == 0){
     strncpy(cfg->server_port, text, text_len);
     cfg->server_port[text_len]='\0';
@@ -256,6 +268,11 @@ static void reducer_text(GMarkupParseContext *context,
   else if(strcmp(element, "MyPort") == 0){
     strncpy(cfg->my_port, text, text_len);
     cfg->my_port[text_len]='\0';
+  }
+  
+  else if(strcmp(element, "ResultRootDir") == 0){
+    strncpy(cfg->result_root_dir, text, text_len);
+    cfg->result_root_dir[text_len]='\0';
   }
 
   else if(strcmp(element, "ServerPort") == 0){
@@ -398,6 +415,7 @@ int main(int argc, char *argv[]){
 				  worker_cfg.server_port,
 				  worker_cfg.app_name,
 				  worker_cfg.task_root_dir,
+				  worker_cfg.result_root_dir,
 				  worker_cfg.exec_root_dir,
 				  worker_cfg.heartbeat_internal);
        if(!worker){
@@ -415,6 +433,7 @@ int main(int argc, char *argv[]){
 				   reducer_cfg.count,
 				   reducer_cfg.my_ip,
 				   reducer_cfg.my_port,
+				   reducer_cfg.result_root_dir,
 				   reducer_cfg.heartbeat_internal);
       if(!reducer){
 	 printf("dec reducer init error\n");

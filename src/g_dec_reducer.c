@@ -31,7 +31,8 @@ static void dec_reducer_net_message_from_worker_read_callback(struct bufferevent
   char *buf[NET_BUF_SIZE];
   int32_t sz=0, tmp=0;
   FILE *fp=NULL;
-  char recv_file[1024];
+  char recv_file[1024], recv_path[1024];
+  DEC_REDUCER reducer = (DEC_REDUCER)p;
 
   bufferevent_read(bev, buf, 1);
   
@@ -44,8 +45,10 @@ static void dec_reducer_net_message_from_worker_read_callback(struct bufferevent
   bufferevent_read(bev, buf, 4);
   memcpy(&sz, buf, 4);
 
-  sprintf(recv_file, "./results/%s/%d.zip", name, time(0));
-  util_mkdir_with_path("./results/app2");
+  sprintf(recv_path, "%s/%s", reducer->result_root_dir->str, name);
+  util_mkdir_with_path(recv_path);
+  sprintf(recv_file, "%s/%d.zip", recv_path, time(0));
+
   fp=fopen(recv_file, "a+");
   assert(fp);
   while(tmp+NET_BUF_SIZE <= sz){
@@ -57,6 +60,11 @@ static void dec_reducer_net_message_from_worker_read_callback(struct bufferevent
   bufferevent_read(bev, buf, sz-tmp);
   fwrite(buf, 1, sz-tmp, fp);
   fclose(fp);
+
+  //
+  util_uncompress_file_to_dir(recv_path, recv_file);
+  remove(recv_file);
+  //
   bufferevent_free(bev);
 }
 
@@ -155,7 +163,7 @@ int dec_reducer_net_message_process(DEC_REDUCER reducer,
 }
 
 static void dec_reducer_net_message_from_server_read_callback(struct bufferevent *bev,
-						  void *p){
+							      void *p){
   DEC_REDUCER reducer=(DEC_REDUCER)p;
   struct evbuffer *src=NULL;
   size_t len=0;
@@ -207,8 +215,8 @@ static void dec_reducer_net_message_from_server_read_callback(struct bufferevent
 }
 
 static void dec_reducer_net_event_from_server_callback(struct bufferevent *bev, 
-					   short what, 
-					   void *p){
+						       short what, 
+						       void *p){
   DEC_REDUCER reducer=(DEC_REDUCER)p;
 
   printf("Got an event in net server: %s\n",
@@ -232,6 +240,7 @@ DEC_REDUCER g_dec_reducer_init(char *serv_ip,
 			       int32_t count,
 			       char *my_ip,
 			       char *my_port,
+			       char *result_root_dir,
 			       int heartbeat_internal){
   evutil_socket_t fds[2];
   struct sockaddr_in sin;
@@ -326,6 +335,12 @@ DEC_REDUCER g_dec_reducer_init(char *serv_ip,
   reducer->listen_port=atoi(my_port);
   reducer->net_listener=NULL;
   
+
+  reducer->result_root_dir = g_string_new("");
+  if(!reducer->result_root_dir)
+    return NULL;
+
+  g_string_append_len(reducer->result_root_dir, result_root_dir, strlen(result_root_dir));
   return reducer;
 }
 
@@ -337,5 +352,6 @@ void g_dec_reducer_start(DEC_REDUCER reducer){
 void g_dec_reducer_free(DEC_REDUCER reducer){
   event_base_free(reducer->base);  
   evconnlistener_free(reducer->net_listener);
+  g_string_free(reducer->result_root_dir,  TRUE);
   free(reducer);
 }

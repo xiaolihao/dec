@@ -25,6 +25,7 @@ extern "C" {
 #include <event2/util.h>
 
 #include "zip.h"
+#include "unzip.h"
 /** dec net package format
  *
  * ----package header(12 bytes)----

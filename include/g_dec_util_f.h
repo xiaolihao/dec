@@ -38,3 +38,10 @@ int util_send_file_to_host_with_prepadding(char *ip,
 
 
 void util_remove_file_parent(char *file);
+
+int util_uncompress_file_to_dir(char *dest_dir,
+				char zip_file);
+
+int util_compress_dir_to_file(char *dest_file,
+			      char *prefix,
+			      char *src_dir);

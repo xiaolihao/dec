@@ -4,6 +4,6 @@
 	<ExecRootDir>./exe_on_worker</ExecRootDir>
 	<ServerPort>9000</ServerPort>
 	<ServerIP>127.0.0.1</ServerIP>
-	<AppName>app2</AppName>
+	<AppName>app1</AppName>
 	<HeartbeatInternal>10</HeartbeatInternal>
 </DecWorkerCfg>

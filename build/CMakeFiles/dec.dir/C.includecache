@@ -39,6 +39,10 @@ event2/util.h
 -
 zip.h
 ../include/zip.h
+unzip.h
+../include/unzip.h
+
+../include/g_dec_reducer.h
 
 ../include/g_dec_reducer.h
 
@@ -59,6 +63,14 @@ mz64conf.h
 ../minizip/include/mz64conf.h
 stdint.h
 ../minizip/include/stdint.h
+
+../minizip/include/unzip.h
+zlib.h
+../minizip/include/zlib.h
+ioapi.h
+../minizip/include/ioapi.h
+bzlib.h
+../minizip/include/bzlib.h
 
 ../minizip/include/zip.h
 zlib.h

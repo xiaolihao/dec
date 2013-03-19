@@ -38,7 +38,7 @@ static void dec_worker_task_check_cb(evutil_socket_t fd,
   /* try to upload results file to reducer node */
   /* ... */
   
-  sprintf(src_dir, "%s/%s", worker->task_root_dir->str, worker->app_name->str);
+  sprintf(src_dir, "%s/%s", worker->result_root_dir->str, worker->app_name->str);
   
 
   /* compress results file */
@@ -83,7 +83,7 @@ int dec_worker_net_message_process(DEC_WORKER worker,
 				   int32_t size){
   int32_t fd=-1;
   char *buf=NULL;
-  char task_path[1024], exe_path[1024];
+  char task_path[1024], exe_path[1024], result_path[1024];
   pid_t pid=-1;
   char msg[1024];
   char ip[128], port[128];
@@ -160,7 +160,10 @@ int dec_worker_net_message_process(DEC_WORKER worker,
       
       if(pid == 0){
 	sprintf(exe_path, "%s/%s", worker->exe_root_dir->str, worker->app_name->str);
-	execl(exe_path, worker->app_name->str, task_path, NULL);
+	sprintf(result_path, "%s/%s", worker->result_root_dir->str, worker->app_name->str);
+	util_mkdir_with_path(result_path);
+	
+	execl(exe_path, worker->app_name->str, task_path, result_path, NULL);
 	printf("exe:%s fail\n", exe_path);
 	exit(0);
       }
@@ -271,6 +274,7 @@ DEC_WORKER g_dec_worker_init(char *serv_ip,
 			     char *serv_port,
 			     char *app_name,
 			     char *task_root,
+			     char *result_root,
 			     char *exec_root,
 			     int heartbeat_internal){
   evutil_socket_t fds[2];
@@ -365,11 +369,13 @@ DEC_WORKER g_dec_worker_init(char *serv_ip,
   free(buf);
 
   worker->task_root_dir = g_string_new("");
+  worker->result_root_dir = g_string_new("");
   worker->exe_root_dir  = g_string_new("");
   worker->reducer_ip = g_string_new("");
   worker->reducer_port = g_string_new("");
   worker->serv_ip = g_string_new("");
   if(!worker->task_root_dir||
+     !worker->result_root_dir||
      !worker->exe_root_dir ||
      !worker->reducer_ip   ||
      !worker->reducer_port ||
@@ -379,6 +385,7 @@ DEC_WORKER g_dec_worker_init(char *serv_ip,
   g_string_append_len(worker->task_root_dir, task_root, strlen(task_root));
   g_string_append_len(worker->exe_root_dir, exec_root, strlen(exec_root));
   g_string_append_len(worker->serv_ip, serv_ip, strlen(serv_ip));
+  g_string_append_len(worker->result_root_dir, result_root, strlen(result_root));
 
   /* task trigger */
   worker->task_ev=evsignal_new(worker->base, SIGCHLD, dec_worker_task_check_cb, worker);
@@ -402,6 +409,7 @@ void g_dec_worker_free(DEC_WORKER worker){
   g_string_free(worker->serv_ip, TRUE);
   g_string_free(worker->task_root_dir, TRUE);
   g_string_free(worker->exe_root_dir,  TRUE);
+  g_string_free(worker->result_root_dir,  TRUE);
   g_string_free(worker->app_name, TRUE);
   free(worker);
 }
