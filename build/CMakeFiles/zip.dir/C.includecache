@@ -106,7 +106,7 @@ stdio.h
 windows.h
 -
 
-/usr/local/include/zconf.h
+/opt/local/include/zconf.h
 windows.h
 -
 limits.h
@@ -120,7 +120,7 @@ unistd.h
 unixio.h
 -
 
-/usr/local/include/zlib.h
+/opt/local/include/zlib.h
 zconf.h
-/usr/local/include/zconf.h
+/opt/local/include/zconf.h
 
