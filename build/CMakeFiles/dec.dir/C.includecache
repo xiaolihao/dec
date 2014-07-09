@@ -44,8 +44,6 @@ unzip.h
 
 ../include/g_dec_reducer.h
 
-../include/g_dec_reducer.h
-
 ../include/g_dec_serv.h
 
 ../include/g_dec_worker.h
@@ -80,27 +78,27 @@ ioapi.h
 bzlib.h
 ../minizip/include/bzlib.h
 
-/Users/tll007/dev/dec/src/g_dec_reducer.c
+/Users/xiao/dev/dec/src/g_dec_reducer.c
 g_dec_internal.h
-/Users/tll007/dev/dec/src/g_dec_internal.h
+/Users/xiao/dev/dec/src/g_dec_internal.h
 g_dec_reducer.h
-/Users/tll007/dev/dec/src/g_dec_reducer.h
+/Users/xiao/dev/dec/src/g_dec_reducer.h
 
-/Users/tll007/dev/dec/src/g_dec_serv.c
+/Users/xiao/dev/dec/src/g_dec_serv.c
 g_dec_internal.h
-/Users/tll007/dev/dec/src/g_dec_internal.h
+/Users/xiao/dev/dec/src/g_dec_internal.h
 g_dec_serv.h
-/Users/tll007/dev/dec/src/g_dec_serv.h
+/Users/xiao/dev/dec/src/g_dec_serv.h
 
-/Users/tll007/dev/dec/src/g_dec_util.c
+/Users/xiao/dev/dec/src/g_dec_util.c
 g_dec_internal.h
-/Users/tll007/dev/dec/src/g_dec_internal.h
+/Users/xiao/dev/dec/src/g_dec_internal.h
 
-/Users/tll007/dev/dec/src/g_dec_worker.c
+/Users/xiao/dev/dec/src/g_dec_worker.c
 g_dec_internal.h
-/Users/tll007/dev/dec/src/g_dec_internal.h
+/Users/xiao/dev/dec/src/g_dec_internal.h
 g_dec_worker.h
-/Users/tll007/dev/dec/src/g_dec_worker.h
+/Users/xiao/dev/dec/src/g_dec_worker.h
 
 /opt/local/include/bzlib.h
 stdio.h
@@ -286,6 +284,8 @@ pthread.h
 
 /opt/local/include/glib-2.0/glib/galloca.h
 glib/gtypes.h
+-
+alloca.h
 -
 alloca.h
 -
@@ -619,6 +619,8 @@ glib/gvarianttype.h
 -
 glib/gstring.h
 -
+glib/gbytes.h
+-
 
 /opt/local/include/glib-2.0/glib/gvarianttype.h
 glib/gmessages.h
@@ -642,6 +644,8 @@ windows.h
 limits.h
 -
 sys/types.h
+-
+stdarg.h
 -
 stddef.h
 -

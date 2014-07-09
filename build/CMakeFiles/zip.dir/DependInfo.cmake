@@ -4,10 +4,10 @@ SET(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 SET(CMAKE_DEPENDS_CHECK_C
-  "/Users/tll007/dev/dec/minizip/src/ioapi.c" "/Users/tll007/dev/dec/build/CMakeFiles/zip.dir/minizip/src/ioapi.c.o"
-  "/Users/tll007/dev/dec/minizip/src/mztools.c" "/Users/tll007/dev/dec/build/CMakeFiles/zip.dir/minizip/src/mztools.c.o"
-  "/Users/tll007/dev/dec/minizip/src/unzip.c" "/Users/tll007/dev/dec/build/CMakeFiles/zip.dir/minizip/src/unzip.c.o"
-  "/Users/tll007/dev/dec/minizip/src/zip.c" "/Users/tll007/dev/dec/build/CMakeFiles/zip.dir/minizip/src/zip.c.o"
+  "/Users/xiao/dev/dec/minizip/src/ioapi.c" "/Users/xiao/dev/dec/build/CMakeFiles/zip.dir/minizip/src/ioapi.c.o"
+  "/Users/xiao/dev/dec/minizip/src/mztools.c" "/Users/xiao/dev/dec/build/CMakeFiles/zip.dir/minizip/src/mztools.c.o"
+  "/Users/xiao/dev/dec/minizip/src/unzip.c" "/Users/xiao/dev/dec/build/CMakeFiles/zip.dir/minizip/src/unzip.c.o"
+  "/Users/xiao/dev/dec/minizip/src/zip.c" "/Users/xiao/dev/dec/build/CMakeFiles/zip.dir/minizip/src/zip.c.o"
   )
 SET(CMAKE_C_COMPILER_ID "GNU")
 

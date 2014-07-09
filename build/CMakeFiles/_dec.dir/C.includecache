@@ -36,7 +36,7 @@ g_dec_reducer_f.h
 
 ../include/g_dec_worker_f.h
 
-/Users/tll007/dev/dec/src/_dec.c
+/Users/xiao/dev/dec/src/_dec.c
 stdio.h
 -
 stdlib.h
@@ -44,7 +44,7 @@ stdlib.h
 glib.h
 -
 dec.h
-/Users/tll007/dev/dec/src/dec.h
+/Users/xiao/dev/dec/src/dec.h
 
 /opt/local/include/glib-2.0/glib.h
 glib/galloca.h
@@ -224,6 +224,8 @@ pthread.h
 
 /opt/local/include/glib-2.0/glib/galloca.h
 glib/gtypes.h
+-
+alloca.h
 -
 alloca.h
 -
@@ -556,6 +558,8 @@ stdarg.h
 glib/gvarianttype.h
 -
 glib/gstring.h
+-
+glib/gbytes.h
 -
 
 /opt/local/include/glib-2.0/glib/gvarianttype.h

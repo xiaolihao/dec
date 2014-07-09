@@ -38,10 +38,10 @@ EQUALS = =
 CMAKE_EDIT_COMMAND = /opt/local/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/tll007/dev/dec
+CMAKE_SOURCE_DIR = /Users/xiao/dev/dec
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/tll007/dev/dec/build
+CMAKE_BINARY_DIR = /Users/xiao/dev/dec/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/zip.dir/depend.make
@@ -54,17 +54,17 @@ include CMakeFiles/zip.dir/flags.make
 
 CMakeFiles/zip.dir/minizip/src/ioapi.c.o: CMakeFiles/zip.dir/flags.make
 CMakeFiles/zip.dir/minizip/src/ioapi.c.o: ../minizip/src/ioapi.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/dec/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/xiao/dev/dec/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/zip.dir/minizip/src/ioapi.c.o"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/zip.dir/minizip/src/ioapi.c.o   -c /Users/tll007/dev/dec/minizip/src/ioapi.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/zip.dir/minizip/src/ioapi.c.o   -c /Users/xiao/dev/dec/minizip/src/ioapi.c
 
 CMakeFiles/zip.dir/minizip/src/ioapi.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/zip.dir/minizip/src/ioapi.c.i"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -E /Users/tll007/dev/dec/minizip/src/ioapi.c > CMakeFiles/zip.dir/minizip/src/ioapi.c.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /Users/xiao/dev/dec/minizip/src/ioapi.c > CMakeFiles/zip.dir/minizip/src/ioapi.c.i
 
 CMakeFiles/zip.dir/minizip/src/ioapi.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/zip.dir/minizip/src/ioapi.c.s"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -S /Users/tll007/dev/dec/minizip/src/ioapi.c -o CMakeFiles/zip.dir/minizip/src/ioapi.c.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /Users/xiao/dev/dec/minizip/src/ioapi.c -o CMakeFiles/zip.dir/minizip/src/ioapi.c.s
 
 CMakeFiles/zip.dir/minizip/src/ioapi.c.o.requires:
 .PHONY : CMakeFiles/zip.dir/minizip/src/ioapi.c.o.requires
@@ -77,17 +77,17 @@ CMakeFiles/zip.dir/minizip/src/ioapi.c.o.provides.build: CMakeFiles/zip.dir/mini
 
 CMakeFiles/zip.dir/minizip/src/zip.c.o: CMakeFiles/zip.dir/flags.make
 CMakeFiles/zip.dir/minizip/src/zip.c.o: ../minizip/src/zip.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/dec/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/xiao/dev/dec/build/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/zip.dir/minizip/src/zip.c.o"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/zip.dir/minizip/src/zip.c.o   -c /Users/tll007/dev/dec/minizip/src/zip.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/zip.dir/minizip/src/zip.c.o   -c /Users/xiao/dev/dec/minizip/src/zip.c
 
 CMakeFiles/zip.dir/minizip/src/zip.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/zip.dir/minizip/src/zip.c.i"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -E /Users/tll007/dev/dec/minizip/src/zip.c > CMakeFiles/zip.dir/minizip/src/zip.c.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /Users/xiao/dev/dec/minizip/src/zip.c > CMakeFiles/zip.dir/minizip/src/zip.c.i
 
 CMakeFiles/zip.dir/minizip/src/zip.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/zip.dir/minizip/src/zip.c.s"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -S /Users/tll007/dev/dec/minizip/src/zip.c -o CMakeFiles/zip.dir/minizip/src/zip.c.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /Users/xiao/dev/dec/minizip/src/zip.c -o CMakeFiles/zip.dir/minizip/src/zip.c.s
 
 CMakeFiles/zip.dir/minizip/src/zip.c.o.requires:
 .PHONY : CMakeFiles/zip.dir/minizip/src/zip.c.o.requires
@@ -100,17 +100,17 @@ CMakeFiles/zip.dir/minizip/src/zip.c.o.provides.build: CMakeFiles/zip.dir/minizi
 
 CMakeFiles/zip.dir/minizip/src/unzip.c.o: CMakeFiles/zip.dir/flags.make
 CMakeFiles/zip.dir/minizip/src/unzip.c.o: ../minizip/src/unzip.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/dec/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/xiao/dev/dec/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/zip.dir/minizip/src/unzip.c.o"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/zip.dir/minizip/src/unzip.c.o   -c /Users/tll007/dev/dec/minizip/src/unzip.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/zip.dir/minizip/src/unzip.c.o   -c /Users/xiao/dev/dec/minizip/src/unzip.c
 
 CMakeFiles/zip.dir/minizip/src/unzip.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/zip.dir/minizip/src/unzip.c.i"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -E /Users/tll007/dev/dec/minizip/src/unzip.c > CMakeFiles/zip.dir/minizip/src/unzip.c.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /Users/xiao/dev/dec/minizip/src/unzip.c > CMakeFiles/zip.dir/minizip/src/unzip.c.i
 
 CMakeFiles/zip.dir/minizip/src/unzip.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/zip.dir/minizip/src/unzip.c.s"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -S /Users/tll007/dev/dec/minizip/src/unzip.c -o CMakeFiles/zip.dir/minizip/src/unzip.c.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /Users/xiao/dev/dec/minizip/src/unzip.c -o CMakeFiles/zip.dir/minizip/src/unzip.c.s
 
 CMakeFiles/zip.dir/minizip/src/unzip.c.o.requires:
 .PHONY : CMakeFiles/zip.dir/minizip/src/unzip.c.o.requires
@@ -123,17 +123,17 @@ CMakeFiles/zip.dir/minizip/src/unzip.c.o.provides.build: CMakeFiles/zip.dir/mini
 
 CMakeFiles/zip.dir/minizip/src/mztools.c.o: CMakeFiles/zip.dir/flags.make
 CMakeFiles/zip.dir/minizip/src/mztools.c.o: ../minizip/src/mztools.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/tll007/dev/dec/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/xiao/dev/dec/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/zip.dir/minizip/src/mztools.c.o"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/zip.dir/minizip/src/mztools.c.o   -c /Users/tll007/dev/dec/minizip/src/mztools.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/zip.dir/minizip/src/mztools.c.o   -c /Users/xiao/dev/dec/minizip/src/mztools.c
 
 CMakeFiles/zip.dir/minizip/src/mztools.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/zip.dir/minizip/src/mztools.c.i"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -E /Users/tll007/dev/dec/minizip/src/mztools.c > CMakeFiles/zip.dir/minizip/src/mztools.c.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /Users/xiao/dev/dec/minizip/src/mztools.c > CMakeFiles/zip.dir/minizip/src/mztools.c.i
 
 CMakeFiles/zip.dir/minizip/src/mztools.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/zip.dir/minizip/src/mztools.c.s"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -S /Users/tll007/dev/dec/minizip/src/mztools.c -o CMakeFiles/zip.dir/minizip/src/mztools.c.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /Users/xiao/dev/dec/minizip/src/mztools.c -o CMakeFiles/zip.dir/minizip/src/mztools.c.s
 
 CMakeFiles/zip.dir/minizip/src/mztools.c.o.requires:
 .PHONY : CMakeFiles/zip.dir/minizip/src/mztools.c.o.requires
@@ -179,6 +179,6 @@ CMakeFiles/zip.dir/clean:
 .PHONY : CMakeFiles/zip.dir/clean
 
 CMakeFiles/zip.dir/depend:
-	cd /Users/tll007/dev/dec/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/tll007/dev/dec /Users/tll007/dev/dec /Users/tll007/dev/dec/build /Users/tll007/dev/dec/build /Users/tll007/dev/dec/build/CMakeFiles/zip.dir/DependInfo.cmake --color=$(COLOR)
+	cd /Users/xiao/dev/dec/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/xiao/dev/dec /Users/xiao/dev/dec /Users/xiao/dev/dec/build /Users/xiao/dev/dec/build /Users/xiao/dev/dec/build/CMakeFiles/zip.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/zip.dir/depend
 
